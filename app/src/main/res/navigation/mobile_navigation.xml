@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.cameron.finalyearprojectv2.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_daily"
+        android:name="com.cameron.finalyearprojectv2.ui.daily.DailyFragment"
+        android:label="@string/menu_daily" />
+
+    <fragment
+        android:id="@+id/nav_weekly"
+        android:name="com.cameron.finalyearprojectv2.ui.weekly.weeklyFragment"
+        android:label="@string/menu_weekly"
+        tools:layout="@layout/fragment_weekly" />
+
+    <fragment
+        android:id="@+id/nav_task_timer"
+        android:name="com.cameron.finalyearprojectv2.ui.task_timer.taskTimerFragment"
+        android:label="@string/menu_tasks"
+        tools:layout="@layout/fragment_task_timer" />
+
+</navigation>
