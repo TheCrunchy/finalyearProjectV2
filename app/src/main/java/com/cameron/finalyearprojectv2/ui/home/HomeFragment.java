@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.cameron.finalyearprojectv2.R;
+import com.cameron.finalyearprojectv2.UserData;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -33,6 +34,19 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textDay = root.findViewById(R.id.dayOfWeekTextView);
         final TextView textView = root.findViewById(R.id.text_home);
+        final TextView deadlinesToday = root.findViewById(R.id.textViewDeadlinesToday);
+        final TextView deadlinesThisWeek = root.findViewById(R.id.textViewDeadlinesThisWeek);
+        UserData data = UserData.getInstance();
+        if (data != null && data.getGoals() != null) {
+            if (data.getGoals().size() < 0) {
+                deadlinesToday.setText(data.getGoals().size());
+                deadlinesThisWeek.setText("0");
+            }
+        }
+        else {
+            deadlinesToday.setText("0");
+            deadlinesThisWeek.setText("0");
+        }
         homeViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

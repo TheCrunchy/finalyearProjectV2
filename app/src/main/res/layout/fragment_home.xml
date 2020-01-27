@@ -7,15 +7,12 @@
 
     <TextView
         android:id="@+id/text_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="16dp"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dayOfWeekTextView" />
 
@@ -24,45 +21,82 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
-        android:textSize="20sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:layout_constraintEnd_toEndOf="@+id/text_home"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_text"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="400dp"
-        android:onClick="saveFile"
-        android:text="save"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/textViewDeadlinesToday"
+        android:layout_width="123dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDeadlinesTodayLabel" />
 
-    <Button
-        android:id="@+id/button_load"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_save"
-        android:layout_alignStart="@+id/button_save"
-        android:layout_marginBottom="32dp"
-        android:onClick="loadFile"
-        android:text="load"
+    <TextView
+        android:id="@+id/textViewDeadlinesThisWeek"
+        android:layout_width="123dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="56dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDeadlinesThisWeekLabel" />
+
+    <TextView
+        android:id="@+id/textViewDeadlinesTodayLabel"
+        android:layout_width="100dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/dailyDeadline"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_home" />
+
+    <TextView
+        android:id="@+id/textViewDeadlinesThisWeekLabel"
+        android:layout_width="100dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="66dp"
+        android:text="@string/weeklyDeadline"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_home" />
+
+    <TableLayout
+        android:layout_width="325dp"
+        android:layout_height="515dp"
+        android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_save" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+    </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,9 @@
             android:id="@+id/nav_weekly"
             android:title="@string/menu_weekly" />
         <item
+            android:id="@+id/nav_goals"
+            android:title="@string/menu_goals" />
+        <item
             android:id="@+id/nav_task_timer"
             android:title="@string/menu_tasks" />
     </group>

@@ -2,8 +2,6 @@ package com.cameron.finalyearprojectv2;
 
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,17 +25,17 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     private static final String FILE_NAME = "data.json";
     private AppBarConfiguration mAppBarConfiguration;
     private static Gson gson = new Gson();
-    private UserData data = new UserData();
-    EditText mEditText;
-
-    public static String filePath = null;
-
-    public static String getPath(){
-        return filePath;
+    private static UserData data = UserData.getInstance();
+    //EditText mEditText;
+    //String date;
+    //DatePicker picker;
+    //EditText userInputGoal;
+    public static UserData getData(){
+        return data;
     }
 
     @Override
@@ -46,20 +44,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mEditText = findViewById(R.id.edit_text);
-        //mEditText.setText(com.cameron.finalyearprojectv2.MainActivity.getPath());
+       // loadFile();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_daily, R.id.nav_weekly,
-                R.id.nav_task_timer)
+                R.id.nav_goals,R.id.nav_task_timer)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
+        //picker=(DatePicker)findViewById(R.id.datePicker1);
+
+        //userInputGoal = (EditText) findViewById(R.id.text_goals);
+        //Button button = (Button) findViewById(R.id.buttonSave);
+        //button.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+       //     public void onClick(View v) {
+       //         data.addGoal(userInputGoal.getText().toString(), picker.getDayOfMonth()+"/"+ (picker.getMonth() + 1)+"/"+picker.getYear());
+     //           saveFile();
+      //      }
+     //   });
     }
 
     @Override
@@ -76,10 +86,8 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public void saveFile(View v) {
-        mEditText = findViewById(R.id.edit_text);
-        String saveThis = mEditText.getText().toString();
-        data.setTest(saveThis);
+    public void saveFile() {
+        //data
         String text = gson.toJson(data);
         FileOutputStream fos = null;
 
@@ -87,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
             fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
             fos.write(text.getBytes());
 
-            mEditText.getText().clear();
             Toast.makeText(this, "Saved to " + getFilesDir() + "/" + FILE_NAME,
                     Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e) {
@@ -104,9 +111,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    public void loadFile(View v) {
+    public void loadFile() {
         FileInputStream fis = null;
-        mEditText = findViewById(R.id.edit_text);
         try {
             fis = openFileInput(FILE_NAME);
             InputStreamReader isr = new InputStreamReader(fis);
@@ -119,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
             }
             Type temp = new TypeToken<UserData>() {}.getType();
            data = gson.fromJson(sb.toString(), temp);
-            mEditText.setText(data.getTest());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
