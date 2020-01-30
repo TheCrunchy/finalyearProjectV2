@@ -2,6 +2,10 @@ package com.cameron.finalyearprojectv2;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,9 +35,12 @@ public class MainActivity extends AppCompatActivity{
     private static Gson gson = new Gson();
     private static UserData data = UserData.getInstance();
     //EditText mEditText;
-    //String date;
-    //DatePicker picker;
-    //EditText userInputGoal;
+    String date;
+    DatePicker picker;
+    EditText userInputGoal;
+
+
+
     public static UserData getData(){
         return data;
     }
@@ -44,7 +51,10 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-       // loadFile();
+
+        //Load the users data
+        loadFile();
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -59,17 +69,7 @@ public class MainActivity extends AppCompatActivity{
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
-        //picker=(DatePicker)findViewById(R.id.datePicker1);
 
-        //userInputGoal = (EditText) findViewById(R.id.text_goals);
-        //Button button = (Button) findViewById(R.id.buttonSave);
-        //button.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-       //     public void onClick(View v) {
-       //         data.addGoal(userInputGoal.getText().toString(), picker.getDayOfMonth()+"/"+ (picker.getMonth() + 1)+"/"+picker.getYear());
-     //           saveFile();
-      //      }
-     //   });
     }
 
     @Override
@@ -86,6 +86,17 @@ public class MainActivity extends AppCompatActivity{
                 || super.onSupportNavigateUp();
     }
 
+    public void onAddGoal(View v){
+        picker=(DatePicker)findViewById(R.id.datePicker1);
+
+        userInputGoal = (EditText) findViewById(R.id.text_goals);
+        Button button = (Button) findViewById(R.id.buttonSave);
+        System.out.println("PICKER " + picker.getMonth());
+
+        data.addGoal(userInputGoal.getText().toString(), picker.getDayOfMonth()+"/"+ (picker.getMonth() + 1)+"/"+picker.getYear());
+        saveFile();
+
+    }
     public void saveFile() {
         //data
         String text = gson.toJson(data);

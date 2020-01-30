@@ -75,28 +75,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_home" />
 
-    <TableLayout
-        android:layout_width="325dp"
-        android:layout_height="515dp"
-        android:layout_marginBottom="40dp"
+    <ScrollView
+        android:layout_width="248dp"
+        android:layout_height="493dp"
+        android:layout_marginTop="220dp"
+        android:layout_weight="1"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TableRow
+        <TableLayout
+            android:id="@+id/tableForGoals"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/dayOfWeekTextView">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="40dp" />
-    </TableLayout>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+        </TableLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

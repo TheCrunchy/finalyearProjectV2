@@ -9,8 +9,8 @@ public class Goal {
         goals.put(goal, deadline);
     }
 
-    public void removeGoal(String goal, String deadline){
-        goals.remove(goal, deadline);
+    public void removeGoal(String goal){
+        goals.remove(goal);
     }
 
     public int calculateDailyGoals(){
@@ -19,5 +19,9 @@ public class Goal {
 
         }
         return 0;
+    }
+
+    public HashMap<String, String> getAllGoals(){
+        return goals;
     }
 }

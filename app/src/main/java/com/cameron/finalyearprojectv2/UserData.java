@@ -1,11 +1,9 @@
 package com.cameron.finalyearprojectv2;
 
-import java.util.List;
-
 public final class UserData {
     private  UserData(){
     }
-    private List<Goal> goals;
+    private Goal goals = new Goal();
     private static UserData instance;
     public static UserData getInstance(){
         if (instance == null){
@@ -15,15 +13,18 @@ public final class UserData {
     }
 
     public void addGoal(String goal, String deadline){
-        Goal newGoal = new Goal();
-        newGoal.addGoal(goal, deadline);
-        goals.add(newGoal);
+        String[]split = deadline.split("/");
+        if (split[1].length() == 1){
+            split[1] = "0" + split[1];
+        }
+        String newDeadline = split[0] + "/" +split[1] + "/" + split[2];
+        goals.addGoal(goal, newDeadline);
     }
-    public void removeGoal(Goal goal){
-        goals.remove(goal);
+    public void removeGoal(String goal){
+        goals.removeGoal(goal);
     }
 
-    public List<Goal> getGoals(){
+    public Goal getGoals(){
         return goals;
     }
 
