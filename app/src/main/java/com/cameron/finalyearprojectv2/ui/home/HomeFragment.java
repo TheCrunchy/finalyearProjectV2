@@ -2,6 +2,7 @@ package com.cameron.finalyearprojectv2.ui.home;
 
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,17 +42,24 @@ public class HomeFragment extends Fragment {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        //Declare the textviews so they can be used
         final TextView textDay = root.findViewById(R.id.dayOfWeekTextView);
         final TextView textView = root.findViewById(R.id.text_home);
         final TextView deadlinesToday = root.findViewById(R.id.textViewDeadlinesToday);
         final TextView deadlinesThisWeek = root.findViewById(R.id.textViewDeadlinesThisWeek);
+        final TextView closestDeadline = root.findViewById(R.id.textViewClosestDeadlineLabel);
         UserData data = MainActivity.getData();
-        System.out.println("GOALS " + data.getGoals().getAllGoals().size());
+
+        //Make the day of the week not all caps
+        day = day.substring(0,1).toUpperCase() + day.substring(1).toLowerCase();
+
+        //System.out.println("GOALS " + data.getGoals().getAllGoals().size());
 
         int goalsToday = 0;
         int goalsThisWeek = 0;
         HashMap<String, String> allGoals = data.getGoals().getAllGoals();
-
+        closestDeadline.setText("0" + "");
         for (Map.Entry<String, String> entry : allGoals.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
@@ -59,9 +67,9 @@ public class HomeFragment extends Fragment {
             if (value.equals(date)){
                 goalsToday++;
             }
-            System.out.println("Current goal : " + key);
-            System.out.println("Current date : " + date);
-            System.out.println("Current deadline : " + value);
+            //  System.out.println("Current goal : " + key);
+            // System.out.println("Current date : " + date);
+            //System.out.println("Current deadline : " + value);
 
             Calendar cal1 = Calendar.getInstance();
             cal1.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -94,14 +102,14 @@ public class HomeFragment extends Fragment {
                 tableRow.setLayoutParams(new TableLayout.LayoutParams(
                         TableLayout.LayoutParams.WRAP_CONTENT,
                         TableLayout.LayoutParams.WRAP_CONTENT,
-                        1.0f));
+                        0.0f));
                 TextView textGoal = new TextView(root.getContext());
                 textGoal.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
-                        1.0f));
-                textGoal.setText(key);
-                textGoal.setMovementMethod(new ScrollingMovementMethod());
+                        0.0f));
+                textGoal.setText(key + "\n" + value);
+                textGoal.setGravity(Gravity.CENTER);
                 tableRow.addView(textGoal);
                 table.addView(tableRow);
 
@@ -109,9 +117,9 @@ public class HomeFragment extends Fragment {
                     text2.setLayoutParams(new TableRow.LayoutParams(
                             TableRow.LayoutParams.MATCH_PARENT,
                             TableRow.LayoutParams.MATCH_PARENT,
-                            1.0f));
+                            0.0f));
                     text2.setMovementMethod(new ScrollingMovementMethod());
-                    text2.setText(value);
+                   text2.setText(value);
 
                     tableRow.addView(text2);
                 }

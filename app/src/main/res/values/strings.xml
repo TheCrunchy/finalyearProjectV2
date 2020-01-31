@@ -14,5 +14,6 @@
     <string name="menu_goals">Goals</string>
     <string name="menu_send">Send</string>
     <string name="dailyDeadline">Today\'s Deadlines</string>
+    <string name="timeDeadline">Time Until Deadline</string>
     <string name="weeklyDeadline">Weekly Deadlines</string>
 </resources>
