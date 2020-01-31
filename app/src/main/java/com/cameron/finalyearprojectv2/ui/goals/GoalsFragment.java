@@ -26,7 +26,7 @@ public class GoalsFragment extends Fragment {
         goalsViewModel =
                 ViewModelProviders.of(this).get(GoalsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_goals, container, false);
-        final TextView textView = root.findViewById(R.id.text_goals);
+        final TextView textView = root.findViewById(R.id.text_goalsTitle);
         goalsViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

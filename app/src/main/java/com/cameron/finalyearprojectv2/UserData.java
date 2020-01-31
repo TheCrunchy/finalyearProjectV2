@@ -12,13 +12,13 @@ public final class UserData {
         return instance;
     }
 
-    public void addGoal(String goal, String deadline){
+    public void addGoal(String goalTitle, String subGoal, String deadline){
         String[]split = deadline.split("/");
         if (split[1].length() == 1){
             split[1] = "0" + split[1];
         }
         String newDeadline = split[0] + "/" +split[1] + "/" + split[2];
-        goals.addGoal(goal, newDeadline);
+        goals.addGoal(goalTitle, subGoal, newDeadline);
     }
     public void removeGoal(String goal){
         goals.removeGoal(goal);

@@ -37,6 +37,7 @@ public class HomeFragment extends Fragment {
     View root;
     String date = simpleDateFormat.format(new Date());
     TableLayout ll;
+    Calendar calendar;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -49,6 +50,8 @@ public class HomeFragment extends Fragment {
         final TextView deadlinesToday = root.findViewById(R.id.textViewDeadlinesToday);
         final TextView deadlinesThisWeek = root.findViewById(R.id.textViewDeadlinesThisWeek);
         final TextView closestDeadline = root.findViewById(R.id.textViewClosestDeadlineLabel);
+
+        //get the user data
         UserData data = MainActivity.getData();
 
         //Make the day of the week not all caps
@@ -58,71 +61,87 @@ public class HomeFragment extends Fragment {
 
         int goalsToday = 0;
         int goalsThisWeek = 0;
-        HashMap<String, String> allGoals = data.getGoals().getAllGoals();
+        HashMap<String, HashMap<String, String>> allGoals = data.getGoals().getAllGoals();
         closestDeadline.setText("0" + "");
-        for (Map.Entry<String, String> entry : allGoals.entrySet()) {
+        for (Map.Entry<String, HashMap<String, String>> entry : allGoals.entrySet()) {
             String key = entry.getKey();
-            Object value = entry.getValue();
+            HashMap<String, String> value = entry.getValue();
             // ...
-            if (value.equals(date)){
-                goalsToday++;
-            }
-            //  System.out.println("Current goal : " + key);
-            // System.out.println("Current date : " + date);
-            //System.out.println("Current deadline : " + value);
 
-            Calendar cal1 = Calendar.getInstance();
-            cal1.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-            int week1 = cal1.get(Calendar.WEEK_OF_YEAR);
 
-            SimpleDateFormat formatter = new SimpleDateFormat(pattern);
-            Date date2 = null;
-            try {
-                date2 = formatter.parse(value.toString());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            int week2;
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date2);
-            week2 = calendar.get(Calendar.WEEK_OF_YEAR);
-            System.out.println("WEEKS " + week1 + " " + week2);
-            if (week1 == week2){
-                goalsThisWeek ++;
-            }
         }
         ll = (TableLayout) root.findViewById(R.id.tableForGoals);
         TableLayout table = (TableLayout) root.findViewById(R.id.tableForGoals);
-       // ll.setVerticalScrollBarEnabled(true);
-        for (Map.Entry<String, String> entry : allGoals.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
 
+       // ll.setVerticalScrollBarEnabled(true);
+
+        //Should probably make this one loop with the above one
+        for (Map.Entry<String, HashMap<String, String>> entry : allGoals.entrySet()) {
+            String goalKey = entry.getKey();
+            HashMap<String, String> value = entry.getValue();
+            for (Map.Entry<String, String> newEntry : value.entrySet()) {
+
+                String subGoalKey = newEntry.getKey();
+                String subGoalDeadline = newEntry.getValue();
+                System.out.println(date);
+                System.out.println(subGoalDeadline);
+                if (subGoalDeadline.equals(date)){
+                    goalsToday++;
+                }
+                //  System.out.println("Current goal : " + key);
+                // System.out.println("Current date : " + date);
+                //System.out.println("Current deadline : " + value);
+
+                calendar = Calendar.getInstance();
+                calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                int week1 = calendar.get(Calendar.WEEK_OF_YEAR);
+
+                SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+                Date date2 = null;
+                try {
+                    date2 = formatter.parse(subGoalDeadline);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                if (date2 != null){
+                    int week2;
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(date2);
+                    week2 = calendar.get(Calendar.WEEK_OF_YEAR);
+                    System.out.println("WEEKS " + week1 + " " + week2);
+                    if (week1 == week2){
+                        goalsThisWeek ++;
+                    }
+                }
                 TableRow tableRow = new TableRow(root.getContext());
                 tableRow.setLayoutParams(new TableLayout.LayoutParams(
                         TableLayout.LayoutParams.WRAP_CONTENT,
                         TableLayout.LayoutParams.WRAP_CONTENT,
-                        0.0f));
+                        0.5f));
                 TextView textGoal = new TextView(root.getContext());
                 textGoal.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
-                        0.0f));
-                textGoal.setText(key + "\n" + value);
+                        0.5f));
+                textGoal.setText(goalKey + "\n" + subGoalKey);
                 textGoal.setGravity(Gravity.CENTER);
+                textGoal.setBottom(10);
+                textGoal.setMaxWidth(550);
                 tableRow.addView(textGoal);
                 table.addView(tableRow);
 
-                    TextView text2 = new TextView(root.getContext());
-                    text2.setLayoutParams(new TableRow.LayoutParams(
-                            TableRow.LayoutParams.MATCH_PARENT,
-                            TableRow.LayoutParams.MATCH_PARENT,
-                            0.0f));
-                    text2.setMovementMethod(new ScrollingMovementMethod());
-                   text2.setText(value);
+                TextView text2 = new TextView(root.getContext());
+                text2.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        0.0f));
+                text2.setMovementMethod(new ScrollingMovementMethod());
+                text2.setText(subGoalDeadline);
+                text2.setMaxWidth(550);
+                tableRow.addView(text2);
 
-                    tableRow.addView(text2);
-                }
+            }
+        }
 
 
 //        int i = 0;

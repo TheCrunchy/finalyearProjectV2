@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity{
     String date;
     DatePicker picker;
     EditText userInputGoal;
-
+    EditText userInputGoalTitle;
 
 
     public static UserData getData(){
@@ -88,12 +88,12 @@ public class MainActivity extends AppCompatActivity{
 
     public void onAddGoal(View v){
         picker=(DatePicker)findViewById(R.id.datePicker1);
-
+        userInputGoalTitle = (EditText) findViewById(R.id.text_goalsTitle);
         userInputGoal = (EditText) findViewById(R.id.text_goals);
         Button button = (Button) findViewById(R.id.buttonSave);
-        System.out.println("PICKER " + picker.getMonth());
+       // System.out.println("PICKER " + picker.getMonth());
 
-        data.addGoal(userInputGoal.getText().toString(), picker.getDayOfMonth()+"/"+ (picker.getMonth() + 1)+"/"+picker.getYear());
+        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal.getText().toString(), picker.getDayOfMonth()+"/"+ (picker.getMonth() + 1)+"/"+picker.getYear());
         saveFile();
 
     }
@@ -133,6 +133,9 @@ public class MainActivity extends AppCompatActivity{
 
             while ((text = br.readLine()) != null) {
                 sb.append(text).append("\n");
+            }
+            if (sb.equals("")){
+                return;
             }
             Type temp = new TypeToken<UserData>() {}.getType();
            data = gson.fromJson(sb.toString(), temp);

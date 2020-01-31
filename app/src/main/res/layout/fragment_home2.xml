@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewDeadlinesToday"
+        android:id="@+id/textViewClosestDeadlineLabel"
         android:layout_width="123dp"
         android:layout_height="50dp"
         android:layout_marginStart="56dp"
