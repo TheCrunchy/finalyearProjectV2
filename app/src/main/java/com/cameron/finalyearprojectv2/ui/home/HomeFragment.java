@@ -38,6 +38,7 @@ public class HomeFragment extends Fragment {
     String date = simpleDateFormat.format(new Date());
     TableLayout ll;
     Calendar calendar;
+    String time;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -63,18 +64,11 @@ public class HomeFragment extends Fragment {
         int goalsThisWeek = 0;
         HashMap<String, HashMap<String, String>> allGoals = data.getGoals().getAllGoals();
         closestDeadline.setText("0" + "");
-        for (Map.Entry<String, HashMap<String, String>> entry : allGoals.entrySet()) {
-            String key = entry.getKey();
-            HashMap<String, String> value = entry.getValue();
-            // ...
 
-
-        }
         ll = (TableLayout) root.findViewById(R.id.tableForGoals);
         TableLayout table = (TableLayout) root.findViewById(R.id.tableForGoals);
 
        // ll.setVerticalScrollBarEnabled(true);
-
         //Should probably make this one loop with the above one
         for (Map.Entry<String, HashMap<String, String>> entry : allGoals.entrySet()) {
             String goalKey = entry.getKey();
@@ -83,11 +77,13 @@ public class HomeFragment extends Fragment {
 
                 String subGoalKey = newEntry.getKey();
                 String subGoalDeadline = newEntry.getValue();
-                System.out.println(date);
-                System.out.println(subGoalDeadline);
-                if (subGoalDeadline.equals(date)){
-                    goalsToday++;
-                }
+                //System.out.println(subGoalDeadline);
+                String[]temp = subGoalDeadline.split("==");
+                time = temp[1];
+                    if (temp[0].equals(date)){
+                        goalsToday++;
+                    }
+
                 //  System.out.println("Current goal : " + key);
                 // System.out.println("Current date : " + date);
                 //System.out.println("Current deadline : " + value);
@@ -113,20 +109,21 @@ public class HomeFragment extends Fragment {
                         goalsThisWeek ++;
                     }
                 }
+
                 TableRow tableRow = new TableRow(root.getContext());
                 tableRow.setLayoutParams(new TableLayout.LayoutParams(
                         TableLayout.LayoutParams.WRAP_CONTENT,
                         TableLayout.LayoutParams.WRAP_CONTENT,
-                        0.5f));
+                        0f));
                 TextView textGoal = new TextView(root.getContext());
                 textGoal.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
-                        0.5f));
+                        0f));
                 textGoal.setText(goalKey + "\n" + subGoalKey);
                 textGoal.setGravity(Gravity.CENTER);
                 textGoal.setBottom(10);
-                textGoal.setMaxWidth(550);
+                textGoal.setWidth(520);
                 tableRow.addView(textGoal);
                 table.addView(tableRow);
 
@@ -136,8 +133,8 @@ public class HomeFragment extends Fragment {
                         TableRow.LayoutParams.MATCH_PARENT,
                         0.0f));
                 text2.setMovementMethod(new ScrollingMovementMethod());
-                text2.setText(subGoalDeadline);
-                text2.setMaxWidth(550);
+                text2.setText(date);
+                text2.setWidth(520);
                 tableRow.addView(text2);
 
             }

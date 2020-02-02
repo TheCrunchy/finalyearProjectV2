@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,8 +37,9 @@ public class MainActivity extends AppCompatActivity{
     private static UserData data = UserData.getInstance();
     //EditText mEditText;
     String date;
-    DatePicker picker;
-    EditText userInputGoal;
+    DatePicker datePicker;
+    TimePicker timePicker;
+    EditText userInputGoal1, userInputGoal2, userInputGoal3;
     EditText userInputGoalTitle;
 
 
@@ -87,13 +89,18 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void onAddGoal(View v){
-        picker=(DatePicker)findViewById(R.id.datePicker1);
+        datePicker=(DatePicker)findViewById(R.id.datePicker1);
+        timePicker=(TimePicker)findViewById(R.id.timePicker1);
         userInputGoalTitle = (EditText) findViewById(R.id.text_goalsTitle);
-        userInputGoal = (EditText) findViewById(R.id.text_goals);
+        userInputGoal1 = (EditText) findViewById(R.id.editTextSubGoal1);
+        userInputGoal2 = (EditText) findViewById(R.id.editTextSubGoal2);
+        userInputGoal3 = (EditText) findViewById(R.id.editTextSubGoal3);
         Button button = (Button) findViewById(R.id.buttonSave);
        // System.out.println("PICKER " + picker.getMonth());
 
-        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal.getText().toString(), picker.getDayOfMonth()+"/"+ (picker.getMonth() + 1)+"/"+picker.getYear());
+        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal1.getText().toString(), datePicker.getDayOfMonth()+"/"+ (datePicker.getMonth() + 1)+"/"+datePicker.getYear() + "==" + timePicker.getHour() + ":" + timePicker.getMinute());
+        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal2.getText().toString(), datePicker.getDayOfMonth()+"/"+ (datePicker.getMonth() + 1)+"/"+datePicker.getYear() + "==" + timePicker.getHour() + ":" + timePicker.getMinute());
+        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal3.getText().toString(), datePicker.getDayOfMonth()+"/"+ (datePicker.getMonth() + 1)+"/"+datePicker.getYear() + "==" + timePicker.getHour() + ":" + timePicker.getMinute());
         saveFile();
 
     }

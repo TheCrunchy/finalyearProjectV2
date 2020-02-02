@@ -14,6 +14,9 @@ public final class UserData {
 
     public void addGoal(String goalTitle, String subGoal, String deadline){
         String[]split = deadline.split("/");
+        if (split[0].length() == 1){
+            split[0] = "0" + split[0];
+        }
         if (split[1].length() == 1){
             split[1] = "0" + split[1];
         }
