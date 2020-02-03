@@ -6,21 +6,11 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/editTextSubGoal3"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:ems="10"
-        android:hint="Subgoal 3"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSubGoal2" />
-
-    <EditText
         android:id="@+id/editTextSubGoal1"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginStart="40dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="40dp"
         android:ems="10"
         android:hint="Subgoal 1"
@@ -29,17 +19,6 @@
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_goalsTitle" />
-
-    <EditText
-        android:id="@+id/editTextSubGoal2"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:ems="10"
-        android:hint="Subgoal 2"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSubGoal1" />
 
     <Button
         android:id="@+id/buttonSave"
@@ -69,11 +48,11 @@
         android:timePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSubGoal3" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextSubGoal1" />
 
     <EditText
         android:id="@+id/text_goalsTitle"
-        android:layout_width="329dp"
+        android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
         android:ems="10"

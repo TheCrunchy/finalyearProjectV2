@@ -28,6 +28,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -93,16 +95,20 @@ public class MainActivity extends AppCompatActivity{
         timePicker=(TimePicker)findViewById(R.id.timePicker1);
         userInputGoalTitle = (EditText) findViewById(R.id.text_goalsTitle);
         userInputGoal1 = (EditText) findViewById(R.id.editTextSubGoal1);
-        userInputGoal2 = (EditText) findViewById(R.id.editTextSubGoal2);
-        userInputGoal3 = (EditText) findViewById(R.id.editTextSubGoal3);
         Button button = (Button) findViewById(R.id.buttonSave);
        // System.out.println("PICKER " + picker.getMonth());
 
-        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal1.getText().toString(), datePicker.getDayOfMonth()+"/"+ (datePicker.getMonth() + 1)+"/"+datePicker.getYear() + " " + timePicker.getHour() + ":" + timePicker.getMinute());
-        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal2.getText().toString(), datePicker.getDayOfMonth()+"/"+ (datePicker.getMonth() + 1)+"/"+datePicker.getYear() + " " + timePicker.getHour() + ":" + timePicker.getMinute());
-        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal3.getText().toString(), datePicker.getDayOfMonth()+"/"+ (datePicker.getMonth() + 1)+"/"+datePicker.getYear() + " " + timePicker.getHour() + ":" + timePicker.getMinute());
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.set(datePicker.getYear(), datePicker.getDayOfMonth(), datePicker.getMonth() + 1, timePicker.getMinute(), timePicker.getHour());
+        date.setMonth(datePicker.getMonth() + 1);
+        date.setDate(datePicker.getDayOfMonth());
+        date.setYear(datePicker.getYear());
+        System.out.println("YEAR " + datePicker.getYear());
+        date.setMinutes(timePicker.getMinute());
+        date.setHours(timePicker.getHour());
+        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal1.getText().toString(), date);
         saveFile();
-
     }
     public void saveFile() {
         //data

@@ -1,30 +1,30 @@
 package com.cameron.finalyearprojectv2;
 
-import java.util.HashMap;
+import java.util.Date;
 
-public class Goal {
-    private HashMap<String, HashMap<String, String> > goals = new HashMap<>();
-
-    public void addGoal(String goalTitle, String goal, String deadline) {
-        HashMap<String, String> temp = new HashMap<>();
-        if (goals.containsKey(goalTitle)){
-            temp = goals.get(goalTitle);
-        }
-        temp.put(goal, deadline);
-        System.out.println(temp);
-        System.out.println(goal + " " + deadline);
-        goals.put(goalTitle, temp);
-       // temp.clear();
-        System.out.println(goals);
+public class Goal  implements Comparable<Goal>{
+    private String title;
+    private String subGoal;
+    private Date deadline;
+    public Goal(String goalTitle, String subGoal, Date deadline){
+        this.title = goalTitle;
+        this.subGoal = subGoal;
+        this.deadline = deadline;
     }
 
-    public void removeGoal(String goal){
-        goals.remove(goal);
+    public Date getDateTime(){
+        return deadline;
     }
 
+    @Override
+    public int compareTo(Goal o) {
+        return getDateTime().compareTo(o.getDateTime());
+    }
 
-
-    public HashMap<String, HashMap<String, String>> getAllGoals(){
-        return goals;
+    public String getTitle(){
+        return this.title;
+    }
+    public String getSubGoal() {
+        return this.subGoal;
     }
 }
