@@ -98,9 +98,9 @@ public class MainActivity extends AppCompatActivity{
         Button button = (Button) findViewById(R.id.buttonSave);
        // System.out.println("PICKER " + picker.getMonth());
 
-        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal1.getText().toString(), datePicker.getDayOfMonth()+"/"+ (datePicker.getMonth() + 1)+"/"+datePicker.getYear() + "==" + timePicker.getHour() + ":" + timePicker.getMinute());
-        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal2.getText().toString(), datePicker.getDayOfMonth()+"/"+ (datePicker.getMonth() + 1)+"/"+datePicker.getYear() + "==" + timePicker.getHour() + ":" + timePicker.getMinute());
-        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal3.getText().toString(), datePicker.getDayOfMonth()+"/"+ (datePicker.getMonth() + 1)+"/"+datePicker.getYear() + "==" + timePicker.getHour() + ":" + timePicker.getMinute());
+        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal1.getText().toString(), datePicker.getDayOfMonth()+"/"+ (datePicker.getMonth() + 1)+"/"+datePicker.getYear() + " " + timePicker.getHour() + ":" + timePicker.getMinute());
+        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal2.getText().toString(), datePicker.getDayOfMonth()+"/"+ (datePicker.getMonth() + 1)+"/"+datePicker.getYear() + " " + timePicker.getHour() + ":" + timePicker.getMinute());
+        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal3.getText().toString(), datePicker.getDayOfMonth()+"/"+ (datePicker.getMonth() + 1)+"/"+datePicker.getYear() + " " + timePicker.getHour() + ":" + timePicker.getMinute());
         saveFile();
 
     }

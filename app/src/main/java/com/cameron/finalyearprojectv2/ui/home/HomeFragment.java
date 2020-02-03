@@ -1,7 +1,6 @@
 package com.cameron.finalyearprojectv2.ui.home;
 
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,7 +67,7 @@ public class HomeFragment extends Fragment {
         ll = (TableLayout) root.findViewById(R.id.tableForGoals);
         TableLayout table = (TableLayout) root.findViewById(R.id.tableForGoals);
 
-       // ll.setVerticalScrollBarEnabled(true);
+        //ll.setVerticalScrollBarEnabled(true);
         //Should probably make this one loop with the above one
         for (Map.Entry<String, HashMap<String, String>> entry : allGoals.entrySet()) {
             String goalKey = entry.getKey();
@@ -78,7 +77,7 @@ public class HomeFragment extends Fragment {
                 String subGoalKey = newEntry.getKey();
                 String subGoalDeadline = newEntry.getValue();
                 //System.out.println(subGoalDeadline);
-                String[]temp = subGoalDeadline.split("==");
+                String[]temp = subGoalDeadline.split(" ");
                 time = temp[1];
                     if (temp[0].equals(date)){
                         goalsToday++;
@@ -112,30 +111,21 @@ public class HomeFragment extends Fragment {
 
                 TableRow tableRow = new TableRow(root.getContext());
                 tableRow.setLayoutParams(new TableLayout.LayoutParams(
-                        TableLayout.LayoutParams.WRAP_CONTENT,
-                        TableLayout.LayoutParams.WRAP_CONTENT,
-                        0f));
+                        TableLayout.LayoutParams.MATCH_PARENT,
+                        TableLayout.LayoutParams.MATCH_PARENT,
+                        1.0f));
                 TextView textGoal = new TextView(root.getContext());
                 textGoal.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
                         TableRow.LayoutParams.MATCH_PARENT,
-                        0f));
-                textGoal.setText(goalKey + "\n" + subGoalKey);
+                        1.0f));
+                textGoal.setText(subGoalKey + "\n" +" Deadline: " + subGoalDeadline + "\n");
                 textGoal.setGravity(Gravity.CENTER);
                 textGoal.setBottom(10);
-                textGoal.setWidth(520);
+                //textGoal.setWidth(520);
                 tableRow.addView(textGoal);
                 table.addView(tableRow);
 
-                TextView text2 = new TextView(root.getContext());
-                text2.setLayoutParams(new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        0.0f));
-                text2.setMovementMethod(new ScrollingMovementMethod());
-                text2.setText(date);
-                text2.setWidth(520);
-                tableRow.addView(text2);
 
             }
         }
