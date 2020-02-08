@@ -1,18 +1,23 @@
 package com.cameron.finalyearprojectv2;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class Goal  implements Comparable<Goal>{
     private String title;
     private String subGoal;
-    private Date deadline;
-    public Goal(String goalTitle, String subGoal, Date deadline){
+    private Calendar deadline;
+    private boolean status = false;
+    public Goal(String goalTitle, String subGoal, Calendar deadline){
         this.title = goalTitle;
         this.subGoal = subGoal;
         this.deadline = deadline;
     }
 
-    public Date getDateTime(){
+    public void setCompletionStatus(Boolean status){
+        this.status = status;
+    }
+
+    public Calendar getDateTime(){
         return deadline;
     }
 
@@ -27,4 +32,9 @@ public class Goal  implements Comparable<Goal>{
     public String getSubGoal() {
         return this.subGoal;
     }
+
+    public boolean isComplete(){
+        return status;
+    }
+
 }

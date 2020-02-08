@@ -1,5 +1,6 @@
 package com.cameron.finalyearprojectv2;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -90,25 +92,68 @@ public class MainActivity extends AppCompatActivity{
                 || super.onSupportNavigateUp();
     }
 
+
+
+    //confirmation for adding a goal
     public void onAddGoal(View v){
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Adding Goal")
+                .setMessage("Are you sure?")
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                onAddGoalConfirmed(v);
+            }
+        })
+    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // do nothing
+            }
+        })
+    .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+    //confirmation for deleting a goal
+    public void onDeleteGoal(View v){
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Deletion of Goal")
+                .setMessage("Are you sure?")
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        onDeleteGoalConfirmed(v);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+    public void onAddGoalConfirmed(View v){
         datePicker=(DatePicker)findViewById(R.id.datePicker1);
         timePicker=(TimePicker)findViewById(R.id.timePicker1);
         userInputGoalTitle = (EditText) findViewById(R.id.text_goalsTitle);
         userInputGoal1 = (EditText) findViewById(R.id.editTextSubGoal1);
         Button button = (Button) findViewById(R.id.buttonSave);
-       // System.out.println("PICKER " + picker.getMonth());
 
         Date date = new Date();
         Calendar cal = Calendar.getInstance();
-        cal.set(datePicker.getYear(), datePicker.getDayOfMonth(), datePicker.getMonth() + 1, timePicker.getMinute(), timePicker.getHour());
-        date.setMonth(datePicker.getMonth() + 1);
-        date.setDate(datePicker.getDayOfMonth());
-        date.setYear(datePicker.getYear());
-        System.out.println("YEAR " + datePicker.getYear());
-        date.setMinutes(timePicker.getMinute());
-        date.setHours(timePicker.getHour());
-        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal1.getText().toString(), date);
+
+        cal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getHour(),  timePicker.getMinute());
+
+        date = cal.getTime();
+        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal1.getText().toString(), cal);
         saveFile();
+    }
+    public void onDeleteGoalConfirmed(View v) {
+        //data
+        userInputGoalTitle = (EditText) findViewById(R.id.text_goalsTitle);
+        userInputGoal1 = (EditText) findViewById(R.id.editTextSubGoal1);
+        Button button = (Button) findViewById(R.id.buttonDelete);
+        data.removeGoal(userInputGoalTitle.getText().toString());
+        saveFile();
+
     }
     public void saveFile() {
         //data

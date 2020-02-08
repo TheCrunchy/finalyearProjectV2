@@ -1,9 +1,9 @@
 package com.cameron.finalyearprojectv2;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 
 public final class UserData {
     private  UserData(){
@@ -17,11 +17,20 @@ public final class UserData {
         return instance;
     }
 
-    public void addGoal(String goalTitle, String subGoal, Date deadline){
+    public void addGoal(String goalTitle, String subGoal, Calendar deadline){
         goals.add(new Goal(goalTitle, subGoal, deadline));
     }
     public void removeGoal(String goal){
-        goals.remove(goal);
+        ArrayList<Goal> temp = new ArrayList<>();
+        for (int counter = 0; counter < goals.size(); counter++) {
+            if (goals.get(counter).getTitle().equals(goal)){
+                temp.add(goals.get(counter));
+            }
+        }
+        for (int counter1 = 0; counter1 < temp.size(); counter1++) {
+            goals.remove(temp.get(counter1));
+        }
+
     }
 
    public ArrayList<Goal> getGoals(){
