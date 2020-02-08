@@ -18,6 +18,15 @@ public final class UserData {
     }
 
     public void addGoal(String goalTitle, String subGoal, Calendar deadline){
+        ArrayList<Goal> temp = new ArrayList<>();
+        for (int counter = 0; counter < goals.size(); counter++) {
+            if (goals.get(counter).getTitle().equals(goalTitle)){
+                temp.add(goals.get(counter));
+            }
+        }
+        for (int counter1 = 0; counter1 < temp.size(); counter1++) {
+            goals.remove(temp.get(counter1));
+        }
         goals.add(new Goal(goalTitle, subGoal, deadline));
     }
     public void removeGoal(String goal){

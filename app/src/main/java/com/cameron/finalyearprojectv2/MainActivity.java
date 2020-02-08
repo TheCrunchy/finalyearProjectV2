@@ -144,6 +144,8 @@ public class MainActivity extends AppCompatActivity{
 
         date = cal.getTime();
         data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal1.getText().toString(), cal);
+        userInputGoal1.setText("");
+        userInputGoalTitle.setText("");
         saveFile();
     }
     public void onDeleteGoalConfirmed(View v) {

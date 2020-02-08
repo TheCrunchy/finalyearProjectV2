@@ -124,6 +124,8 @@ public class HomeFragment extends Fragment {
         ll = (TableLayout) root.findViewById(R.id.tableForGoals);
         TableLayout table = (TableLayout) root.findViewById(R.id.tableForGoals);
 
+
+
         boolean timerStarted = false;
         for (int counter = 0; counter < goals.size(); counter++) {
             Goal goal = goals.get(counter);

@@ -37,4 +37,9 @@ public class Goal  implements Comparable<Goal>{
         return status;
     }
 
+    @Override
+    public String toString() {
+        return title;
+    }
+
 }
