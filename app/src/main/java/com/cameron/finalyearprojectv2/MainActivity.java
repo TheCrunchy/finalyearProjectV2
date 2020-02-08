@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -40,11 +41,12 @@ public class MainActivity extends AppCompatActivity{
     private static Gson gson = new Gson();
     private static UserData data = UserData.getInstance();
     //EditText mEditText;
-    String date;
-    DatePicker datePicker;
-    TimePicker timePicker;
-    EditText userInputGoal1, userInputGoal2, userInputGoal3;
-    EditText userInputGoalTitle;
+    private String date;
+    private DatePicker datePicker;
+    private TimePicker timePicker;
+    private CheckBox goalComplete;
+    private EditText userInputGoal1, userInputGoal2, userInputGoal3;
+    private EditText userInputGoalTitle;
 
 
     public static UserData getData(){
@@ -73,7 +75,6 @@ public class MainActivity extends AppCompatActivity{
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
 
 
     }
@@ -136,14 +137,14 @@ public class MainActivity extends AppCompatActivity{
         userInputGoalTitle = (EditText) findViewById(R.id.text_goalsTitle);
         userInputGoal1 = (EditText) findViewById(R.id.editTextSubGoal1);
         Button button = (Button) findViewById(R.id.buttonSave);
-
+        goalComplete = (CheckBox) findViewById(R.id.checkBoxComplete);
         Date date = new Date();
         Calendar cal = Calendar.getInstance();
 
         cal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getHour(),  timePicker.getMinute());
 
         date = cal.getTime();
-        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal1.getText().toString(), cal);
+        data.addGoal(userInputGoalTitle.getText().toString(), userInputGoal1.getText().toString(), goalComplete.isChecked(), cal);
         userInputGoal1.setText("");
         userInputGoalTitle.setText("");
         saveFile();

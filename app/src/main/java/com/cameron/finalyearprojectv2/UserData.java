@@ -17,7 +17,7 @@ public final class UserData {
         return instance;
     }
 
-    public void addGoal(String goalTitle, String subGoal, Calendar deadline){
+    public void addGoal(String goalTitle, String subGoal, Boolean goalComplete, Calendar deadline){
         ArrayList<Goal> temp = new ArrayList<>();
         for (int counter = 0; counter < goals.size(); counter++) {
             if (goals.get(counter).getTitle().equals(goalTitle)){
@@ -27,7 +27,7 @@ public final class UserData {
         for (int counter1 = 0; counter1 < temp.size(); counter1++) {
             goals.remove(temp.get(counter1));
         }
-        goals.add(new Goal(goalTitle, subGoal, deadline));
+        goals.add(new Goal(goalTitle, subGoal,goalComplete, deadline));
     }
     public void removeGoal(String goal){
         ArrayList<Goal> temp = new ArrayList<>();

@@ -7,10 +7,11 @@ public class Goal  implements Comparable<Goal>{
     private String subGoal;
     private Calendar deadline;
     private boolean status = false;
-    public Goal(String goalTitle, String subGoal, Calendar deadline){
+    public Goal(String goalTitle, String subGoal, Boolean isComplete, Calendar deadline){
         this.title = goalTitle;
         this.subGoal = subGoal;
         this.deadline = deadline;
+        this.status = isComplete;
     }
 
     public void setCompletionStatus(Boolean status){

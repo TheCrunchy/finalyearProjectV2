@@ -121,7 +121,7 @@
         android:layout_width="152dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:text="0d 0h 0m 0s"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/textViewTimeUntilDeadlineLabel"

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -35,6 +36,7 @@ public class GoalsFragment extends Fragment {
     private EditText userInputGoalTitle;
     private DatePicker datePicker;
     private TimePicker timePicker;
+    private CheckBox goalComplete;
     //these are for the spinner to select a goal
 
     //the user data
@@ -59,6 +61,7 @@ public class GoalsFragment extends Fragment {
         userInputGoal1 = (EditText) root.findViewById(R.id.editTextSubGoal1);
         datePicker=(DatePicker) root.findViewById(R.id.datePicker1);
         timePicker=(TimePicker) root.findViewById(R.id.timePicker1);
+        goalComplete=(CheckBox) root.findViewById(R.id.checkBoxComplete);
 
         ArrayList<Goal> goals = data.getGoals();
         ArrayAdapter<Goal> adapter = new ArrayAdapter<Goal>(this.getContext(),
@@ -76,7 +79,7 @@ public class GoalsFragment extends Fragment {
                 timePicker.setIs24HourView(true);
                 timePicker.setHour(g1.getDateTime().getTime().getHours());
                 timePicker.setMinute(g1.getDateTime().getTime().getMinutes());
-                System.out.println(g1.getDateTime().getTime().getDay());
+                goalComplete.setChecked(g1.isComplete());
             }
 //datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getHour(),  timePicker.getMinute()
             @Override

@@ -30,26 +30,25 @@
 
     <Button
         android:id="@+id/buttonSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="10dp"
         android:onClick="onAddGoal"
         android:text="Save Goal"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/datePicker1" />
 
     <Button
         android:id="@+id/buttonDelete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="55dp"
         android:onClick="onDeleteGoal"
         android:text="Delete Goal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSave" />
+        app:layout_constraintTop_toBottomOf="@+id/datePicker1" />
 
     <DatePicker
         android:id="@+id/datePicker1"
@@ -65,10 +64,11 @@
         android:id="@+id/timePicker1"
         android:layout_width="300dp"
         android:layout_height="155dp"
+        android:layout_marginTop="8dp"
         android:timePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSubGoal1" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxComplete" />
 
     <EditText
         android:id="@+id/text_goalsTitle"
@@ -81,6 +81,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkBoxComplete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Goal Complete?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextSubGoal1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
