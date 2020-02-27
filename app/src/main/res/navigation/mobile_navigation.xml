@@ -18,9 +18,9 @@
 
     <fragment
         android:id="@+id/nav_weekly"
-        android:name="com.cameron.finalyearprojectv2.ui.weekly.weeklyFragment"
+        android:name="com.cameron.finalyearprojectv2.ui.editTimetable.editTimetableFragment"
         android:label="@string/menu_weekly"
-        tools:layout="@layout/fragment_weekly" />
+        tools:layout="@layout/fragment_edit_timetable" />
     <fragment
         android:id="@+id/nav_goals"
         android:name="com.cameron.finalyearprojectv2.ui.goals.GoalsFragment"

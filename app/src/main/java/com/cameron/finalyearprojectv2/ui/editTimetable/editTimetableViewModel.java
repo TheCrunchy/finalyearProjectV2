@@ -1,14 +1,14 @@
-package com.cameron.finalyearprojectv2.ui.weekly;
+package com.cameron.finalyearprojectv2.ui.editTimetable;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class weeklyViewModel extends ViewModel {
+public class editTimetableViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public weeklyViewModel() {
+    public editTimetableViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is weekly fragment");
     }

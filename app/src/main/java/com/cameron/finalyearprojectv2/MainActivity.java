@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity{
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
+
     }
 
     @Override
@@ -134,8 +135,8 @@ public class MainActivity extends AppCompatActivity{
     public void onAddGoalConfirmed(View v){
         datePicker=(DatePicker)findViewById(R.id.datePicker1);
         timePicker=(TimePicker)findViewById(R.id.timePicker1);
-        userInputGoalTitle = (EditText) findViewById(R.id.text_goalsTitle);
-        userInputGoal1 = (EditText) findViewById(R.id.editTextSubGoal1);
+        userInputGoalTitle = (EditText) findViewById(R.id.text_title);
+        userInputGoal1 = (EditText) findViewById(R.id.text_details);
         Button button = (Button) findViewById(R.id.buttonSave);
         goalComplete = (CheckBox) findViewById(R.id.checkBoxComplete);
         Date date = new Date();
@@ -151,13 +152,77 @@ public class MainActivity extends AppCompatActivity{
     }
     public void onDeleteGoalConfirmed(View v) {
         //data
-        userInputGoalTitle = (EditText) findViewById(R.id.text_goalsTitle);
-        userInputGoal1 = (EditText) findViewById(R.id.editTextSubGoal1);
+        userInputGoalTitle = (EditText) findViewById(R.id.text_title);
+        userInputGoal1 = (EditText) findViewById(R.id.text_details);
         Button button = (Button) findViewById(R.id.buttonDelete);
         data.removeGoal(userInputGoalTitle.getText().toString());
         saveFile();
 
     }
+    //confirmation for adding a goal
+    public void onAddTimeTable(View v){
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm add")
+                .setMessage("Are you sure?")
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        onAddTimeTableConfirmed(v);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+    //confirmation for deleting a goal
+    public void onDeleteTimeTable(View v){
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Delete")
+                .setMessage("Are you sure?")
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        onDeleteTimeTableConfirmed(v);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+    public void onAddTimeTableConfirmed(View v){
+        datePicker=(DatePicker)findViewById(R.id.datePicker1TimeTable);
+        timePicker=(TimePicker)findViewById(R.id.timePicker1TimeTable);
+        userInputGoalTitle = (EditText) findViewById(R.id.text_titleTimeTable);
+        userInputGoal1 = (EditText) findViewById(R.id.text_detailsTimeTable);
+        Button button = (Button) findViewById(R.id.buttonSaveTimeTable);
+        goalComplete = (CheckBox) findViewById(R.id.checkBoxComplete);
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getHour(),  timePicker.getMinute());
+
+        date = cal.getTime();
+        data.addTimeTableData(userInputGoalTitle.getText().toString(), userInputGoal1.getText().toString(), cal);
+        userInputGoal1.setText("");
+        userInputGoalTitle.setText("");
+        saveFile();
+    }
+    public void onDeleteTimeTableConfirmed(View v) {
+        //data
+        userInputGoalTitle = (EditText) findViewById(R.id.text_titleTimeTable);
+        userInputGoal1 = (EditText) findViewById(R.id.text_detailsTimeTable);
+        Button button = (Button) findViewById(R.id.buttonDeleteTimeTable);
+        data.removeGoal(userInputGoalTitle.getText().toString());
+        saveFile();
+
+    }
+
     public void saveFile() {
         //data
         String text = gson.toJson(data);

@@ -9,6 +9,8 @@ public final class UserData {
     private  UserData(){
     }
     private ArrayList<Goal> goals = new ArrayList<Goal>();
+    private ArrayList<TimeTable> timetable = new ArrayList<TimeTable>();
+
     private static UserData instance;
     public static UserData getInstance(){
         if (instance == null){
@@ -41,11 +43,33 @@ public final class UserData {
         }
 
     }
+    public void addTimeTableData(String title, String details,Calendar time){
+        ArrayList<TimeTable> temp = new ArrayList<>();
+        for (int counter = 0; counter < timetable.size(); counter++) {
+            if (timetable.get(counter).getDateTime() == time){
+                temp.add(timetable.get(counter));
+            }
+        }
+        for (int counter1 = 0; counter1 < temp.size(); counter1++) {
+            timetable.remove(temp.get(counter1));
+        }
+        timetable.add(new TimeTable(title, details, time));
+    }
+    public void removeTimeTableData(String title, Calendar time){
+        ArrayList<TimeTable> temp = new ArrayList<>();
+        for (int counter = 0; counter < goals.size(); counter++) {
+            if (timetable.get(counter).getTitle().equals(title) && timetable.get(counter).getDateTime() == time){
+                temp.add(timetable.get(counter));
+            }
+        }
+        for (int counter1 = 0; counter1 < temp.size(); counter1++) {
+            timetable.remove(temp.get(counter1));
+        }
+
+    }
 
    public ArrayList<Goal> getGoals(){
-        ArrayList<Goal> temp = new ArrayList<>();
-
-        int arraySize = goals.size();
+        ArrayList<Goal> temp;
         temp = goals;
        Collections.sort(temp, new Comparator<Goal>() {
            public int compare(Goal o1, Goal o2) {
@@ -54,5 +78,14 @@ public final class UserData {
        });
         return temp;
     }
-
+    public ArrayList<TimeTable> getTimeTable(){
+        ArrayList<TimeTable> temp;
+        temp = timetable;
+        Collections.sort(temp, new Comparator<TimeTable>() {
+            public int compare(TimeTable o1, TimeTable o2) {
+                return o1.getDateTime().compareTo(o2.getDateTime());
+            }
+        });
+        return temp;
+    }
 }

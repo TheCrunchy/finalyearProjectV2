@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,24 +23,25 @@ import java.util.Locale;
 public class taskTimerFragment extends Fragment {
 
     private TaskTimerViewModel taskTimerViewModel;
-    private static final long START_TIME_IN_MILLIS = 600000;
+    private EditText timeInput;
+    private static final long START_TIME_MILLIS = 600000;
 
-    private TextView mTextViewCountDown;
-    private Button mButtonStartPause;
-    private Button mButtonReset;
+    private TextView textViewCountDown;
+    private Button buttonStartPause;
+    private Button buttonReset;
 
-    private CountDownTimer mCountDownTimer;
+    private CountDownTimer countDownTimer;
 
-    private boolean mTimerRunning;
+    private boolean timerRunning;
 
-    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    private long timeLeftMillis = START_TIME_MILLIS;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         taskTimerViewModel =
                 ViewModelProviders.of(this).get(TaskTimerViewModel.class);
         View root = inflater.inflate(R.layout.fragment_task_timer, container, false);
-        final TextView textView = root.findViewById(R.id.text_tools);
+        timeInput = root.findViewById(R.id.inputMinutes);
         taskTimerViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -48,15 +51,15 @@ public class taskTimerFragment extends Fragment {
             }
         });
 
-        mTextViewCountDown = root.findViewById(R.id.text_view_countdown);
+        textViewCountDown = root.findViewById(R.id.text_view_countdown);
 
-        mButtonStartPause = root.findViewById(R.id.button_start_pause);
-        mButtonReset = root.findViewById(R.id.button_reset);
+        buttonStartPause = root.findViewById(R.id.button_start_pause);
+        buttonReset = root.findViewById(R.id.button_reset);
 
-        mButtonStartPause.setOnClickListener(new View.OnClickListener() {
+        buttonStartPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mTimerRunning) {
+                if (timerRunning) {
                     pauseTimer();
                 } else {
                     startTimer();
@@ -64,7 +67,7 @@ public class taskTimerFragment extends Fragment {
             }
         });
 
-        mButtonReset.setOnClickListener(new View.OnClickListener() {
+        buttonReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetTimer();
@@ -76,48 +79,70 @@ public class taskTimerFragment extends Fragment {
         return root;
     }
     private void startTimer() {
-        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
+        String input = timeInput.getText().toString();
+        if (input.length() == 0) {
+            Toast.makeText(this.getContext(), "Field can't be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        long millisInput = Long.parseLong(input) * 60000;
+        if (millisInput == 0) {
+            Toast.makeText(this.getContext(), "Please enter a positive number", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        timeInput.setText("");
+
+
+        countDownTimer = new CountDownTimer(millisInput , 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                mTimeLeftInMillis = millisUntilFinished;
+                timeLeftMillis = millisUntilFinished;
                 updateCountDownText();
             }
 
             @Override
             public void onFinish() {
-                mTimerRunning = false;
-                mButtonStartPause.setText("Start");
-                mButtonStartPause.setVisibility(View.INVISIBLE);
-                mButtonReset.setVisibility(View.VISIBLE);
+                timerRunning = false;
+                buttonStartPause.setText("Start");
+                buttonStartPause.setVisibility(View.INVISIBLE);
+                buttonReset.setVisibility(View.VISIBLE);
             }
         }.start();
 
-        mTimerRunning = true;
-        mButtonStartPause.setText("pause");
-        mButtonReset.setVisibility(View.INVISIBLE);
+        timerRunning = true;
+        buttonStartPause.setText("pause");
+        buttonReset.setVisibility(View.INVISIBLE);
     }
 
     private void pauseTimer() {
-        mCountDownTimer.cancel();
-        mTimerRunning = false;
-        mButtonStartPause.setText("Start");
-        mButtonReset.setVisibility(View.VISIBLE);
+        countDownTimer.cancel();
+        timerRunning = false;
+        buttonStartPause.setText("Start");
+        buttonReset.setVisibility(View.VISIBLE);
     }
 
     private void resetTimer() {
-        mTimeLeftInMillis = START_TIME_IN_MILLIS;
+        timeLeftMillis = START_TIME_MILLIS;
         updateCountDownText();
-        mButtonReset.setVisibility(View.INVISIBLE);
-        mButtonStartPause.setVisibility(View.VISIBLE);
+        buttonReset.setVisibility(View.INVISIBLE);
+        buttonStartPause.setVisibility(View.VISIBLE);
     }
 
     private void updateCountDownText() {
-        int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
-        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
+        int hours = (int) (timeLeftMillis / 1000) / 3600;
+        int minutes = (int) ((timeLeftMillis / 1000) % 3600) / 60;
+        int seconds = (int) (timeLeftMillis / 1000) % 60;
 
-        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        String timeLeftFormatted;
+        if (hours > 0) {
+            timeLeftFormatted = String.format(Locale.getDefault(),
+                    "%d:%02d:%02d", hours, minutes, seconds);
+        } else {
+            timeLeftFormatted = String.format(Locale.getDefault(),
+                    "%02d:%02d", minutes, seconds);
+        }
 
-        mTextViewCountDown.setText(timeLeftFormatted);
+        textViewCountDown.setText(timeLeftFormatted);
     }
 
 }

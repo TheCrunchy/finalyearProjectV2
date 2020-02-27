@@ -8,8 +8,8 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_daily">Daily</string>
-    <string name="menu_weekly">Weekly</string>
+    <string name="menu_daily">Timetable</string>
+    <string name="menu_weekly">Edit Timetable</string>
     <string name="menu_tasks">Task Timer</string>
     <string name="menu_goals">Goals</string>
     <string name="menu_send">Send</string>

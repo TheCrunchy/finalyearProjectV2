@@ -1,4 +1,4 @@
-package com.cameron.finalyearprojectv2.ui.goals;
+package com.cameron.finalyearprojectv2.ui.editTimetable;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,20 +19,20 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.cameron.finalyearprojectv2.Goal;
 import com.cameron.finalyearprojectv2.MainActivity;
 import com.cameron.finalyearprojectv2.R;
+import com.cameron.finalyearprojectv2.TimeTable;
 import com.cameron.finalyearprojectv2.UserData;
 
 import java.util.ArrayList;
 
-public class GoalsFragment extends Fragment {
+public class editTimetableFragment extends Fragment {
 
-    private GoalsViewModel goalsViewModel;
+    private editTimetableViewModel editTimetableViewModel;
 
     //these are for the spinner to select a goal
     private Spinner spinner;
-    private EditText userInputGoal1, userInputGoal2, userInputGoal3;
+    private EditText userInputGoal1;
     private EditText userInputGoalTitle;
     private DatePicker datePicker;
     private TimePicker timePicker;
@@ -45,43 +45,41 @@ public class GoalsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        goalsViewModel =
-                ViewModelProviders.of(this).get(GoalsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_goals, container, false);
-        final TextView textView = root.findViewById(R.id.text_title);
-        goalsViewModel.getText().observe(this, new Observer<String>() {
+        editTimetableViewModel =
+                ViewModelProviders.of(this).get(editTimetableViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_edit_timetable, container, false);
+        final TextView textView = root.findViewById(R.id.text_titleTimeTable);
+        editTimetableViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-               // textView.setText(s);
+                // textView.setText(s);
             }
         });
-       // final View view = inflater.inflate(R.layout.fragment_goals, container, false);
+        // final View view = inflater.inflate(R.layout.fragment_goals, container, false);
         //get the edit texts to fill later
-        userInputGoalTitle = (EditText) root.findViewById(R.id.text_title);
-        userInputGoal1 = (EditText) root.findViewById(R.id.text_details);
-        datePicker=(DatePicker) root.findViewById(R.id.datePicker1);
-        timePicker=(TimePicker) root.findViewById(R.id.timePicker1);
+        userInputGoalTitle = (EditText) root.findViewById(R.id.text_titleTimeTable);
+        userInputGoal1 = (EditText) root.findViewById(R.id.text_detailsTimeTable);
+        datePicker=(DatePicker) root.findViewById(R.id.datePicker1TimeTable);
+        timePicker=(TimePicker) root.findViewById(R.id.timePicker1TimeTable);
         goalComplete=(CheckBox) root.findViewById(R.id.checkBoxComplete);
 
-        ArrayList<Goal> goals = data.getGoals();
-        ArrayAdapter<Goal> adapter = new ArrayAdapter<Goal>(this.getContext(),
-                android.R.layout.simple_spinner_item, goals);
+        ArrayList<TimeTable> timetable = data.getTimeTable();
+        ArrayAdapter<TimeTable> adapter = new ArrayAdapter<TimeTable>(this.getContext(), android.R.layout.simple_spinner_item, timetable);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner = root.findViewById(R.id.spinnerForData);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Goal g1 = (Goal) parent.getSelectedItem();
-                userInputGoalTitle.setText(((Goal) parent.getSelectedItem()).getTitle());
-                userInputGoal1.setText(((Goal) parent.getSelectedItem()).getSubGoal());
-                datePicker.updateDate(g1.getDateTime().getTime().getYear() + 1900, g1.getDateTime().getTime().getMonth(), g1.getDateTime().getTime().getDate());
+                TimeTable t1 = (TimeTable) parent.getSelectedItem();
+                userInputGoalTitle.setText(((TimeTable) parent.getSelectedItem()).getTitle());
+                userInputGoal1.setText(((TimeTable) parent.getSelectedItem()).getDetails());
+                datePicker.updateDate(t1.getDateTime().getTime().getYear() + 1900, t1.getDateTime().getTime().getMonth(), t1.getDateTime().getTime().getDate());
                 //datePicker.
                 timePicker.setIs24HourView(true);
-                timePicker.setHour(g1.getDateTime().getTime().getHours());
-                timePicker.setMinute(g1.getDateTime().getTime().getMinutes());
-                goalComplete.setChecked(g1.isComplete());
+                timePicker.setHour(t1.getDateTime().getTime().getHours());
+                timePicker.setMinute(t1.getDateTime().getTime().getMinutes());
             }
-//datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getHour(),  timePicker.getMinute()
+            //datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getHour(),  timePicker.getMinute()
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 

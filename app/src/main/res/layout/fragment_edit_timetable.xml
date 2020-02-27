@@ -13,84 +13,74 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
-        android:id="@+id/text_details"
+        android:id="@+id/text_detailsTimeTable"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="40dp"
         android:ems="10"
-        android:hint="Subgoal 1"
+        android:hint="Details, room number, tutor, etc "
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_title" />
+        app:layout_constraintTop_toBottomOf="@+id/text_titleTimeTable" />
 
     <Button
-        android:id="@+id/buttonSave"
+        android:id="@+id/buttonSaveTimeTable"
         android:layout_width="100dp"
         android:layout_height="60dp"
         android:layout_marginStart="55dp"
         android:layout_marginTop="10dp"
-        android:onClick="onAddGoal"
-        android:text="Save Goal"
+        android:onClick="onAddTimeTable"
+        android:text="Save"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/datePicker1" />
+        app:layout_constraintTop_toBottomOf="@+id/datePicker1TimeTable" />
 
     <Button
-        android:id="@+id/buttonDelete"
+        android:id="@+id/buttonDeleteTimeTable"
         android:layout_width="100dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="55dp"
-        android:onClick="onDeleteGoal"
-        android:text="Delete Goal"
+        android:onClick="onDeleteTimeTable"
+        android:text="Delete"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/datePicker1" />
+        app:layout_constraintTop_toBottomOf="@+id/datePicker1TimeTable" />
 
     <DatePicker
-        android:id="@+id/datePicker1"
+        android:id="@+id/datePicker1TimeTable"
         android:layout_width="300dp"
         android:layout_height="150dp"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timePicker1" />
+        app:layout_constraintTop_toBottomOf="@+id/timePicker1TimeTable" />
 
     <TimePicker
-        android:id="@+id/timePicker1"
+        android:id="@+id/timePicker1TimeTable"
         android:layout_width="300dp"
         android:layout_height="155dp"
-        android:layout_marginTop="8dp"
         android:timePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxComplete" />
+        app:layout_constraintTop_toBottomOf="@+id/text_detailsTimeTable" />
 
     <EditText
-        android:id="@+id/text_title"
+        android:id="@+id/text_titleTimeTable"
         android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginTop="50dp"
         android:ems="10"
-        android:hint="Goal Title"
+        android:hint="Title "
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/checkBoxComplete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Goal Complete?"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_details" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
