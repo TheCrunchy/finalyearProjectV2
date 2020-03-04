@@ -10,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
@@ -48,7 +47,6 @@ public class GoalsFragment extends Fragment {
         goalsViewModel =
                 ViewModelProviders.of(this).get(GoalsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_goals, container, false);
-        final TextView textView = root.findViewById(R.id.text_title);
         goalsViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

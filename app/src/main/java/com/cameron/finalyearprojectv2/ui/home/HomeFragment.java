@@ -39,8 +39,8 @@ public class HomeFragment extends Fragment {
 
     private TextView textViewClosestDeadlineLabel;
     private boolean timerRunning;
-    private static long START_TIME_IN_MILLIS = 0;
-    private long timeLeftInMillis = START_TIME_IN_MILLIS;
+    private static long startTimeMillis = 0;
+    private long timeLeftInMillis = startTimeMillis;
     private CountDownTimer CountDownTimer;
     private Calendar nearestGoalCalendar;
     private TableLayout ll;
@@ -67,11 +67,9 @@ public class HomeFragment extends Fragment {
         int goalsToday = 0;
         int goalsThisWeek = 0;
         ArrayList<Goal> goals = data.getGoals();
-        // closestDeadline.setText("0" + "");
         Calendar cal1 = Calendar.getInstance();
         ll = (TableLayout) root.findViewById(R.id.tableForGoals);
         TableLayout table = (TableLayout) root.findViewById(R.id.tableForGoals);
-
 
 
         boolean timerStarted = false;
@@ -108,7 +106,9 @@ public class HomeFragment extends Fragment {
             }
             else {
                 if (!timerStarted){
+                    System.out.println("Timer should be started");
                     startTimer(subGoalDeadline);
+                    nearestGoalCalendar = subGoalDeadline;
                     timerStarted = true;
                     System.out.println("GOAL " + goal.getTitle());
                     System.out.println("SUBGOAL " + subGoalDeadline.getTime());
@@ -155,6 +155,7 @@ public class HomeFragment extends Fragment {
                 textDay.setText(day);
             }
         });
+
         return root;
     }
     private boolean isDateSame(Calendar c1, Calendar c2) {
@@ -168,8 +169,10 @@ public class HomeFragment extends Fragment {
     private void startTimer(Calendar cal) {
         nearestGoalCalendar = cal;
         Calendar localTime = Calendar.getInstance();
-        START_TIME_IN_MILLIS = (cal.getTimeInMillis() - localTime.getTimeInMillis() );
-        CountDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+        startTimeMillis = (cal.getTimeInMillis() - localTime.getTimeInMillis() );
+
+        //pass the startTimeMillis for when the timer should start and an interval for how often to update
+        CountDownTimer = new CountDownTimer(startTimeMillis, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -199,7 +202,6 @@ public class HomeFragment extends Fragment {
 
        long seconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftInMillis);
         String timeLeftFormatted = String.format(days + "d " + hours + "h " + minutes + "m " + seconds + "s" );
-
 
         textViewClosestDeadlineLabel = root.findViewById(R.id.textViewClosestDeadlineLabel);
         textViewClosestDeadlineLabel.setText(timeLeftFormatted);

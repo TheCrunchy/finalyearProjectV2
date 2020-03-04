@@ -32,8 +32,8 @@ public class editTimetableFragment extends Fragment {
 
     //these are for the spinner to select a goal
     private Spinner spinner;
-    private EditText userInputGoal1;
-    private EditText userInputGoalTitle;
+    private EditText userInputDetails;
+    private EditText userInputTitle;
     private DatePicker datePicker;
     private TimePicker timePicker;
     private CheckBox goalComplete;
@@ -57,8 +57,8 @@ public class editTimetableFragment extends Fragment {
         });
         // final View view = inflater.inflate(R.layout.fragment_goals, container, false);
         //get the edit texts to fill later
-        userInputGoalTitle = (EditText) root.findViewById(R.id.text_titleTimeTable);
-        userInputGoal1 = (EditText) root.findViewById(R.id.text_detailsTimeTable);
+        userInputTitle = (EditText) root.findViewById(R.id.text_titleTimeTable);
+        userInputDetails = (EditText) root.findViewById(R.id.text_detailsTimeTable);
         datePicker=(DatePicker) root.findViewById(R.id.datePicker1TimeTable);
         timePicker=(TimePicker) root.findViewById(R.id.timePicker1TimeTable);
         goalComplete=(CheckBox) root.findViewById(R.id.checkBoxComplete);
@@ -71,8 +71,8 @@ public class editTimetableFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TimeTable t1 = (TimeTable) parent.getSelectedItem();
-                userInputGoalTitle.setText(((TimeTable) parent.getSelectedItem()).getTitle());
-                userInputGoal1.setText(((TimeTable) parent.getSelectedItem()).getDetails());
+                userInputTitle.setText(((TimeTable) parent.getSelectedItem()).getTitle());
+                userInputDetails.setText(((TimeTable) parent.getSelectedItem()).getDetails());
                 datePicker.updateDate(t1.getDateTime().getTime().getYear() + 1900, t1.getDateTime().getTime().getMonth(), t1.getDateTime().getTime().getDate());
                 //datePicker.
                 timePicker.setIs24HourView(true);

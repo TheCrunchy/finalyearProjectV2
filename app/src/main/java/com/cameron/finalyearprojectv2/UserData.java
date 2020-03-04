@@ -57,17 +57,26 @@ public final class UserData {
     }
     public void removeTimeTableData(String title, Calendar time){
         ArrayList<TimeTable> temp = new ArrayList<>();
-        for (int counter = 0; counter < goals.size(); counter++) {
-            if (timetable.get(counter).getTitle().equals(title) && timetable.get(counter).getDateTime() == time){
+        System.out.println("Attempting to delete");
+        for (int counter = 0; counter < timetable.size(); counter++) {
+            if (timetable.get(counter).getTitle().equals(title) && isDateSame(timetable.get(counter).getDateTime(), time)){
+                System.out.println("Adding to delete");
                 temp.add(timetable.get(counter));
             }
         }
         for (int counter1 = 0; counter1 < temp.size(); counter1++) {
+            System.out.println("Deleting it");
             timetable.remove(temp.get(counter1));
         }
 
     }
-
+    private boolean isDateSame(Calendar c1, Calendar c2) {
+        return (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) &&
+                c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) &&
+                c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH) &&
+                c1.get(Calendar.HOUR_OF_DAY) == c2.get(Calendar.HOUR_OF_DAY) &&
+                c1.get(Calendar.MINUTE) == c2.get(Calendar.MINUTE));
+    }
    public ArrayList<Goal> getGoals(){
         ArrayList<Goal> temp;
         temp = goals;

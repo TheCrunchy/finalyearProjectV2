@@ -9,7 +9,6 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity{
     private TimePicker timePicker;
     private CheckBox goalComplete;
     private EditText userInputGoal1, userInputGoal2, userInputGoal3;
-    private EditText userInputGoalTitle;
+    private EditText userInputGoalTitle, userInputTitle,  userInputDetails;
 
 
     public static UserData getData(){
@@ -198,8 +197,8 @@ public class MainActivity extends AppCompatActivity{
     public void onAddTimeTableConfirmed(View v){
         datePicker=(DatePicker)findViewById(R.id.datePicker1TimeTable);
         timePicker=(TimePicker)findViewById(R.id.timePicker1TimeTable);
-        userInputGoalTitle = (EditText) findViewById(R.id.text_titleTimeTable);
-        userInputGoal1 = (EditText) findViewById(R.id.text_detailsTimeTable);
+        userInputTitle = (EditText) findViewById(R.id.text_titleTimeTable);
+        userInputDetails = (EditText) findViewById(R.id.text_detailsTimeTable);
         Button button = (Button) findViewById(R.id.buttonSaveTimeTable);
         goalComplete = (CheckBox) findViewById(R.id.checkBoxComplete);
         Date date = new Date();
@@ -208,17 +207,26 @@ public class MainActivity extends AppCompatActivity{
         cal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getHour(),  timePicker.getMinute());
 
         date = cal.getTime();
-        data.addTimeTableData(userInputGoalTitle.getText().toString(), userInputGoal1.getText().toString(), cal);
-        userInputGoal1.setText("");
-        userInputGoalTitle.setText("");
+        data.addTimeTableData(userInputTitle.getText().toString(), userInputDetails.getText().toString(), cal);
+        userInputTitle.setText("");
+        userInputDetails.setText("");
         saveFile();
     }
     public void onDeleteTimeTableConfirmed(View v) {
         //data
-        userInputGoalTitle = (EditText) findViewById(R.id.text_titleTimeTable);
-        userInputGoal1 = (EditText) findViewById(R.id.text_detailsTimeTable);
+        datePicker=(DatePicker)findViewById(R.id.datePicker1TimeTable);
+        timePicker=(TimePicker)findViewById(R.id.timePicker1TimeTable);
+        userInputTitle = (EditText) findViewById(R.id.text_titleTimeTable);
+        userInputDetails= (EditText) findViewById(R.id.text_detailsTimeTable);
         Button button = (Button) findViewById(R.id.buttonDeleteTimeTable);
-        data.removeGoal(userInputGoalTitle.getText().toString());
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getHour(),  timePicker.getMinute());
+        System.out.println("Removing data");
+        data.removeTimeTableData(userInputTitle.getText().toString(), cal);
+        userInputTitle.setText("");
+        userInputDetails.setText("");
         saveFile();
 
     }
@@ -232,8 +240,8 @@ public class MainActivity extends AppCompatActivity{
             fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
             fos.write(text.getBytes());
 
-            Toast.makeText(this, "Saved to " + getFilesDir() + "/" + FILE_NAME,
-                    Toast.LENGTH_LONG).show();
+         //   Toast.makeText(this, "Saved to " + getFilesDir() + "/" + FILE_NAME,
+           //         Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
