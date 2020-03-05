@@ -18,13 +18,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.cameron.finalyearprojectv2.R;
 
-import java.util.Locale;
-
 public class taskTimerFragment extends Fragment {
 
     private TaskTimerViewModel taskTimerViewModel;
     private EditText timeInput;
-    private static final long START_TIME_MILLIS = 600000;
+    private static final long startTimeMillis = 0;
 
     private TextView textViewCountDown;
     private Button buttonStartPause;
@@ -34,7 +32,7 @@ public class taskTimerFragment extends Fragment {
 
     private boolean timerRunning;
 
-    private long timeLeftMillis = START_TIME_MILLIS;
+    private long timeLeftMillis = startTimeMillis;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -80,19 +78,23 @@ public class taskTimerFragment extends Fragment {
     }
     private void startTimer() {
         String input = timeInput.getText().toString();
-        if (input.length() == 0) {
-            Toast.makeText(this.getContext(), "Field can't be empty", Toast.LENGTH_SHORT).show();
-            return;
+        long millisInput;
+        if (timeLeftMillis < 1) {
+            if (input.length() == 0) {
+                Toast.makeText(this.getContext(), "You must enter a number into the input", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            millisInput   = Long.parseLong(input) * 60000;
+            if (millisInput == 0) {
+                Toast.makeText(this.getContext(), "Must be a positive number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            timeInput.setText("");
         }
-
-        long millisInput = Long.parseLong(input) * 60000;
-        if (millisInput == 0) {
-            Toast.makeText(this.getContext(), "Please enter a positive number", Toast.LENGTH_SHORT).show();
-            return;
+        else {
+            millisInput = timeLeftMillis;
         }
-        timeInput.setText("");
-
-
         countDownTimer = new CountDownTimer(millisInput , 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -122,7 +124,7 @@ public class taskTimerFragment extends Fragment {
     }
 
     private void resetTimer() {
-        timeLeftMillis = START_TIME_MILLIS;
+        timeLeftMillis = startTimeMillis;
         updateCountDownText();
         buttonReset.setVisibility(View.INVISIBLE);
         buttonStartPause.setVisibility(View.VISIBLE);
@@ -133,16 +135,20 @@ public class taskTimerFragment extends Fragment {
         int minutes = (int) ((timeLeftMillis / 1000) % 3600) / 60;
         int seconds = (int) (timeLeftMillis / 1000) % 60;
 
-        String timeLeftFormatted;
+
+
+        String timeLeft;
         if (hours > 0) {
-            timeLeftFormatted = String.format(Locale.getDefault(),
-                    "%d:%02d:%02d", hours, minutes, seconds);
+           timeLeft= String.format( hours + "h " + minutes + "m " + seconds + "s" );
+           // timeLeft = String.format(Locale.getDefault(),
+            //        "%d:%02d:%02d", hours, minutes, seconds);
         } else {
-            timeLeftFormatted = String.format(Locale.getDefault(),
-                    "%02d:%02d", minutes, seconds);
+           timeLeft= String.format(minutes + "m " + seconds + "s" );
+          //  timeLeft = String.format(Locale.getDefault(),
+          //          "%02d:%02d", minutes, seconds);
         }
 
-        textViewCountDown.setText(timeLeftFormatted);
+        textViewCountDown.setText(timeLeft);
     }
 
 }

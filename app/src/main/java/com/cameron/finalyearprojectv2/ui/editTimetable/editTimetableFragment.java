@@ -31,7 +31,7 @@ public class editTimetableFragment extends Fragment {
     private editTimetableViewModel editTimetableViewModel;
 
     //these are for the spinner to select a goal
-    private Spinner spinner;
+    private Spinner spinnerSelectEdit;
     private EditText userInputDetails;
     private EditText userInputTitle;
     private DatePicker datePicker;
@@ -66,8 +66,8 @@ public class editTimetableFragment extends Fragment {
         ArrayList<TimeTable> timetable = data.getTimeTable();
         ArrayAdapter<TimeTable> adapter = new ArrayAdapter<TimeTable>(this.getContext(), android.R.layout.simple_spinner_item, timetable);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner = root.findViewById(R.id.spinnerForData);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerSelectEdit = root.findViewById(R.id.spinnerForData);
+        spinnerSelectEdit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TimeTable t1 = (TimeTable) parent.getSelectedItem();
@@ -85,7 +85,7 @@ public class editTimetableFragment extends Fragment {
 
             }
         });
-        spinner.setAdapter(adapter);
+        spinnerSelectEdit.setAdapter(adapter);
         return root;
     }
 }

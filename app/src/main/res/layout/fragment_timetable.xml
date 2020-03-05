@@ -4,17 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <Spinner
+        android:id="@+id/spinnerForSelectingWeek"
+        android:layout_width="249dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="384dp"
-        android:layout_height="701dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="663dp"
+        android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/spinnerForSelectingWeek">
 
         <TableLayout
             android:id="@+id/tableForTimeTable"

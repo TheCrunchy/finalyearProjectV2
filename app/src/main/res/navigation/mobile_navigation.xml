@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/nav_daily"
-        android:name="com.cameron.finalyearprojectv2.ui.daily.DailyFragment"
+        android:name="com.cameron.finalyearprojectv2.ui.timetableView.timetableViewFragment"
         android:label="@string/menu_daily" />
 
     <fragment

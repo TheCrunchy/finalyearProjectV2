@@ -158,6 +158,8 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
+
+    //i would make this a public static but each use is slightly different
     private boolean isDateSame(Calendar c1, Calendar c2) {
         return (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) &&
                 c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) &&

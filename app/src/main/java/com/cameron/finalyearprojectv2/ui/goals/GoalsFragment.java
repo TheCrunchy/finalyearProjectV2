@@ -79,7 +79,7 @@ public class GoalsFragment extends Fragment {
                 timePicker.setMinute(g1.getDateTime().getTime().getMinutes());
                 goalComplete.setChecked(g1.isComplete());
             }
-//datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getHour(),  timePicker.getMinute()
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
