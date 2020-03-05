@@ -53,6 +53,7 @@ public class timetableViewFragment extends Fragment {
         ArrayList<DateForSpinner> temporaryWeeks = new ArrayList<>();
         ArrayList<DateForSpinner> keepWeeks = new ArrayList<>();
         //Rewrite this to remove the mondays that dont have a user added event
+        keepWeeks.add(new DateForSpinner(timeTable.get(0).getDateTime()));
         temporaryWeeks.add(new DateForSpinner(Calendar.getInstance()));
         for (int counter1 = 0; counter1 < timeTable.size(); counter1++) {
             temporaryWeeks.add(new DateForSpinner(timeTable.get(counter1).getDateTime()));
@@ -63,8 +64,6 @@ public class timetableViewFragment extends Fragment {
                     }
                 }
             }
-        //sort these by date
-        keepWeeks.add(new DateForSpinner(timeTable.get(0).getDateTime()));
 
         ArrayAdapter<DateForSpinner> adapter = new ArrayAdapter<DateForSpinner>(this.getContext(), android.R.layout.simple_spinner_item, keepWeeks);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
