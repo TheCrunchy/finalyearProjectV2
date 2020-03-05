@@ -23,6 +23,6 @@ public class DateForSpinner implements Comparable<TimeTable>{
 
     @Override
     public String toString() {
-        return String.format(date.getTime().toString());
+    return "Week Beginning " + date.getTime().getDate() +  "/" + (date.getTime().getMonth() + 1) +  "/" + (date.getTime().getYear() + 1900);
     }
 }
