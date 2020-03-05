@@ -22,7 +22,7 @@ import com.cameron.finalyearprojectv2.MainActivity;
 import com.cameron.finalyearprojectv2.R;
 import com.cameron.finalyearprojectv2.TimeTable;
 import com.cameron.finalyearprojectv2.UserData;
-import com.cameron.finalyearprojectv2.ui.DateForSpinner;
+import com.cameron.finalyearprojectv2.DateForSpinner;
 
 import java.util.ArrayList;
 import java.util.Calendar;

@@ -1,4 +1,4 @@
-package com.cameron.finalyearprojectv2.ui;
+package com.cameron.finalyearprojectv2;
 
 import com.cameron.finalyearprojectv2.TimeTable;
 
@@ -30,6 +30,6 @@ public class DateForSpinner implements Comparable<TimeTable>{
     //return "Week Beginning " + date.getTime().getDate() +  "/" + (date.getTime().getMonth() + 1) +  "/" + (date.getTime().getYear() + 1900);
         Calendar tempCal = date;
         tempCal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        return "Week Beginning " + tempCal.getTime().getDate() +  "/" + (tempCal.getTime().getMonth() + 1) +  "/" + (tempCal.getTime().getYear() + 1900);
+        return tempCal.getTime().getDate() +  "/" + (tempCal.getTime().getMonth() + 1) +  "/" + (tempCal.getTime().getYear() + 1900);
     }
 }
