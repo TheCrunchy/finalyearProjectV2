@@ -9,7 +9,6 @@ public class DateForSpinner implements Comparable<TimeTable>{
 
     public DateForSpinner(Calendar cal){
         this.date = cal;
-        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
     }
 
     public Calendar getDateTime(){
@@ -21,8 +20,13 @@ public class DateForSpinner implements Comparable<TimeTable>{
         return getDateTime().compareTo(o.getDateTime());
     }
 
+
+    //make this return the monday instead of making the calendar monday
     @Override
     public String toString() {
-    return "Week Beginning " + date.getTime().getDate() +  "/" + (date.getTime().getMonth() + 1) +  "/" + (date.getTime().getYear() + 1900);
+
+     //return String.valueOf(date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY));
+        
+    //return "Week Beginning " + date.getTime().getDate() +  "/" + (date.getTime().getMonth() + 1) +  "/" + (date.getTime().getYear() + 1900);
     }
 }
