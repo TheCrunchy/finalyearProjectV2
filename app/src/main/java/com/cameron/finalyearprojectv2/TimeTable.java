@@ -11,7 +11,6 @@ public class TimeTable implements Comparable<TimeTable>{
         this.details = details;
         this.time = time;
     }
-
     public Calendar getDateTime(){
         return time;
     }

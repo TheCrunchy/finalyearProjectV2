@@ -18,14 +18,21 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.cameron.finalyearprojectv2.DateForSpinner;
 import com.cameron.finalyearprojectv2.MainActivity;
 import com.cameron.finalyearprojectv2.R;
 import com.cameron.finalyearprojectv2.TimeTable;
 import com.cameron.finalyearprojectv2.UserData;
-import com.cameron.finalyearprojectv2.DateForSpinner;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 public class timetableViewFragment extends Fragment {
 
@@ -52,19 +59,32 @@ public class timetableViewFragment extends Fragment {
         timeTable = data.getTimeTable();
         ArrayList<DateForSpinner> temporaryWeeks = new ArrayList<>();
         ArrayList<DateForSpinner> keepWeeks = new ArrayList<>();
-        //Rewrite this to remove the mondays that dont have a user added event
         keepWeeks.add(new DateForSpinner(timeTable.get(0).getDateTime()));
         temporaryWeeks.add(new DateForSpinner(Calendar.getInstance()));
-        for (int counter1 = 0; counter1 < timeTable.size(); counter1++) {
-            temporaryWeeks.add(new DateForSpinner(timeTable.get(counter1).getDateTime()));
 
-                if (!isDateInCurrentWeek(temporaryWeeks.get(counter1).getDateTime(), timeTable.get(counter1).getDateTime())) {
-                    if (!keepWeeks.contains(new DateForSpinner(timeTable.get(counter1).getDateTime()))) {
-                        keepWeeks.add(new DateForSpinner(timeTable.get(counter1).getDateTime()));
-                    }
+        Calendar start = timeTable.get(0).getDateTime();
+        Calendar end = timeTable.get(timeTable.size() - 1).getDateTime();
+
+        LocalDate startD = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate stopD = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        List<LocalDate> mondays = new ArrayList<> ();
+        LocalDate nextOrSameMonday = startD.with ( TemporalAdjusters.nextOrSame ( DayOfWeek.MONDAY ) );
+
+        while ( ( null != nextOrSameMonday ) & (  ! nextOrSameMonday.isAfter ( stopD ) ) ) {
+            mondays.add ( nextOrSameMonday );  //
+            nextOrSameMonday = nextOrSameMonday.plusWeeks ( 1 );
+        }
+
+
+        for (int counter1 = 0; counter1 < timeTable.size(); counter1++) {
+            for (int counter2 = 0; counter2 < mondays.size(); counter2++) {
+                if (isWeekSameLocalDate(mondays.get(counter2), timeTable.get(counter1).getDateTime())){
+                    if (!keepWeeks.contains(new DateForSpinner(timeTable.get(counter1).getDateTime()))){
+                    keepWeeks.add(new DateForSpinner(timeTable.get(counter1).getDateTime()));
+                 }
                 }
             }
-
+        }
         ArrayAdapter<DateForSpinner> adapter = new ArrayAdapter<DateForSpinner>(this.getContext(), android.R.layout.simple_spinner_item, keepWeeks);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner = root.findViewById(R.id.spinnerForSelectingWeek);
@@ -75,34 +95,34 @@ public class timetableViewFragment extends Fragment {
                 TableLayout tableForTimeTable = (TableLayout) root.findViewById(R.id.tableForTimeTable);
                 tableForTimeTable.removeAllViews();
                 for (int counter1 = 0; counter1 < timeTable.size(); counter1++) {
-                    //System.out.println("IN LOOP " + counter1 + " " + timeTable.get(counter1).getDateTime().getTime());
-                    if (isWeekSame(timeTable.get(counter1).getDateTime(), datad.getDateTime())) {
+                    if (isWeekSameLocalDate((timeTable.get(counter1).getDateTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()), datad.getDateTime())) {
                         //loop through them all and check if same week
-                        TimeTable currentData = timeTable.get(counter1);
+                        ArrayList<TimeTable> timeTable2 = data.getTimeTable();
+                        TimeTable currentData = timeTable2.get(counter1);
+                            TableRow tableRow = new TableRow(root.getContext());
+                            tableRow.setLayoutParams(new TableLayout.LayoutParams(
+                                    TableLayout.LayoutParams.MATCH_PARENT,
+                                    TableLayout.LayoutParams.MATCH_PARENT,
+                                    1.0f));
+                            TextView textTimeTable = new TextView(root.getContext());
+                            textTimeTable.setLayoutParams(new TableRow.LayoutParams(
+                                    TableRow.LayoutParams.MATCH_PARENT,
+                                    TableRow.LayoutParams.MATCH_PARENT,
+                                    1.0f));
+                            textTimeTable.setGravity(Gravity.CENTER);
+                            textTimeTable.setBottom(10);
 
-                        TableRow tableRow = new TableRow(root.getContext());
-                        tableRow.setLayoutParams(new TableLayout.LayoutParams(
-                                TableLayout.LayoutParams.MATCH_PARENT,
-                                TableLayout.LayoutParams.MATCH_PARENT,
-                                1.0f));
-                        TextView textTimeTable = new TextView(root.getContext());
-                        textTimeTable.setLayoutParams(new TableRow.LayoutParams(
-                                TableRow.LayoutParams.MATCH_PARENT,
-                                TableRow.LayoutParams.MATCH_PARENT,
-                                1.0f));
-                        textTimeTable.setGravity(Gravity.CENTER);
-                        textTimeTable.setBottom(10);
+                            textTimeTable.setLayoutParams(new TableRow.LayoutParams(
+                                    TableRow.LayoutParams.MATCH_PARENT,
+                                    TableRow.LayoutParams.MATCH_PARENT,
+                                    1.0f));
+                            textTimeTable.setText(currentData.getTitle() + "\n" + currentData.getDetails() + "\n" + currentData.getDateTime().getTime() + "\n");
+                            textTimeTable.setGravity(Gravity.CENTER);
+                            textTimeTable.setBottom(10);
+                            tableRow.addView(textTimeTable);
+                            tableForTimeTable.addView(tableRow);
+                            //populate the table
 
-                        textTimeTable.setLayoutParams(new TableRow.LayoutParams(
-                                TableRow.LayoutParams.MATCH_PARENT,
-                                TableRow.LayoutParams.MATCH_PARENT,
-                                1.0f));
-                        textTimeTable.setText(currentData.getTitle() + "\n" + currentData.getDetails() + "\n" + currentData.getDateTime().getTime() + "\n");
-                        textTimeTable.setGravity(Gravity.CENTER);
-                        textTimeTable.setBottom(10);
-                        tableRow.addView(textTimeTable);
-                        tableForTimeTable.addView(tableRow);
-                        //populate the table
                     }
                 }
             }
@@ -116,24 +136,18 @@ public class timetableViewFragment extends Fragment {
 
         return root;
     }
-    public boolean isDateInCurrentWeek(Calendar cal1, Calendar cal2) {
 
-        Calendar firstTarget = cal2;
-        int week = firstTarget.get(Calendar.WEEK_OF_YEAR);
-        int year = firstTarget.get(Calendar.YEAR);
-        Calendar secondTarget = cal1;
-        int targetWeek = secondTarget.get(Calendar.WEEK_OF_YEAR);
-        int targetYear = secondTarget.get(Calendar.YEAR);
 
-        boolean belongs = (week == targetWeek && year == targetYear);
-        System.out.println(belongs);
-        return belongs;
+    //Use this to remove all the weeks from the mondays that dont have anything entered by the user, also used to check
+    //if 2 dates are in the same week when adding to the scrollview
+    public static boolean isWeekSameLocalDate(LocalDate firstDate, Calendar cal) {
+        LocalDate secondDate = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        WeekFields weeks = WeekFields.of(Locale.getDefault());
+        int firstDatesCalendarWeek = firstDate.get(weeks.weekOfWeekBasedYear());
+        int secondDatesCalendarWeek = secondDate.get(weeks.weekOfWeekBasedYear());
+        int firstWeek = firstDate.get(weeks.weekBasedYear());
+        int secondWeek = secondDate.get(weeks.weekBasedYear());
+        return firstDatesCalendarWeek == secondDatesCalendarWeek
+                && firstWeek == secondWeek;
     }
-    //i would make this a public static but each use is slightly different
-    private boolean isWeekSame(Calendar c1, Calendar c2) {
-        return (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) &&
-                c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) &&
-                c1.get(Calendar.WEEK_OF_YEAR) == c2.get(Calendar.WEEK_OF_YEAR));
-    }
-
 }

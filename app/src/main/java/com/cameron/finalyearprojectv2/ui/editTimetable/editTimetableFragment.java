@@ -64,6 +64,13 @@ public class editTimetableFragment extends Fragment {
         goalComplete=(CheckBox) root.findViewById(R.id.checkBoxComplete);
 
         ArrayList<TimeTable> timetable = data.getTimeTable();
+        ArrayList<TimeTable> removeThis = new ArrayList<>();
+        for (int counter1 = 0; counter1 < timetable.size(); counter1++) {
+            if (timetable.get(counter1).getTitle().equals("Current Time")) {
+                removeThis.add(timetable.get(counter1));
+            }
+        }
+        timetable.removeAll(removeThis);
         ArrayAdapter<TimeTable> adapter = new ArrayAdapter<TimeTable>(this.getContext(), android.R.layout.simple_spinner_item, timetable);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerSelectEdit = root.findViewById(R.id.spinnerForData);
