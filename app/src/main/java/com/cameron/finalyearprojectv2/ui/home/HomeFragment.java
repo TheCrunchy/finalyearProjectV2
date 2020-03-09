@@ -1,6 +1,7 @@
 package com.cameron.finalyearprojectv2.ui.home;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Gravity;
@@ -209,10 +210,14 @@ public class HomeFragment extends Fragment {
             cal.set(Calendar.MINUTE, 59);
 
         if (counter == goalPosition) {
-            textGoal.setTextColor(Color.BLUE);
+            textGoal.setTypeface(null, Typeface.BOLD_ITALIC);
+        }
+        if (goal.isComplete()){
+            textGoal.setTextColor(Color.GREEN);
         }
         if (subGoalDeadline.before(cal) && !isDateSame(subGoalDeadline, cal)){
             textGoal.setTextColor(Color.RED);
+
         }
             tableRow.addView(textGoal);
             table.addView(tableRow);
