@@ -1,11 +1,13 @@
 package com.cameron.finalyearprojectv2.ui.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -45,7 +47,9 @@ public class HomeFragment extends Fragment {
     private Calendar nearestGoalCalendar;
     private TableLayout ll;
     private Calendar calendar;
-
+    private int goalPosition = 0;
+    private int startPosition = 0;
+    private ArrayList<Goal> goals;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -66,26 +70,23 @@ public class HomeFragment extends Fragment {
 
         int goalsToday = 0;
         int goalsThisWeek = 0;
-        ArrayList<Goal> goals = data.getGoals();
+        goals = data.getGoals();
         Calendar cal1 = Calendar.getInstance();
-        ll = (TableLayout) root.findViewById(R.id.tableForGoals);
-        TableLayout table = (TableLayout) root.findViewById(R.id.tableForGoals);
+
 
 
         boolean timerStarted = false;
         for (int counter = 0; counter < goals.size(); counter++) {
             Goal goal = goals.get(counter);
             Calendar subGoalDeadline = goal.getDateTime();
-            String goalTitle = goal.getTitle();
-            String subGoal = goal.getSubGoal();
 
-
-            //  System.out.println("CALENDARS " + "\n" + cal1.getTime() + "\n" + subGoalDeadline.getTime());
+            //Add to the int if the day is the same for the label later
             boolean sameDay = isDateSame(cal1, subGoalDeadline);
             if (sameDay){
                 goalsToday++;
             }
 
+            //now check if the goal is in the same week
             calendar = Calendar.getInstance();
             int week1 = calendar.get(Calendar.WEEK_OF_YEAR);
 
@@ -105,39 +106,23 @@ public class HomeFragment extends Fragment {
             if (goal.isComplete()){
             }
             else {
-                if (!timerStarted){
-                    System.out.println("Timer should be started");
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR, 23);
+                cal.set(Calendar.MINUTE, 59);
+                if (subGoalDeadline.before(cal) && !isDateSame(subGoalDeadline, cal)){
+                }
+                else if (!timerStarted){
                     startTimer(subGoalDeadline);
                     nearestGoalCalendar = subGoalDeadline;
+                    goalPosition = counter;
+                    startPosition = counter;
                     timerStarted = true;
-                    System.out.println("GOAL " + goal.getTitle());
-                    System.out.println("SUBGOAL " + subGoalDeadline.getTime());
                 }
-                TableRow tableRow = new TableRow(root.getContext());
-                tableRow.setLayoutParams(new TableLayout.LayoutParams(
-                        TableLayout.LayoutParams.MATCH_PARENT,
-                        TableLayout.LayoutParams.MATCH_PARENT,
-                        1.0f));
-                TextView textGoal = new TextView(root.getContext());
-                textGoal.setLayoutParams(new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        1.0f));
-
-
-
-                textGoal.setText(goalTitle + "\n" + subGoal + "\n" + " Deadline: "
-                        + "" + subGoalDeadline.getTime() +
-                        "\n");
-                textGoal.setGravity(Gravity.CENTER);
-                textGoal.setBottom(10);
-                //textGoal.setWidth(520);
-                tableRow.addView(textGoal);
-                table.addView(tableRow);
-
             }
         }
 
+        //populate the table for the goals and highlight the selected goal
+        fillGoals();
 
         if (data != null && data.getGoals() != null) {
             deadlinesToday.setText(goalsToday + "");
@@ -155,10 +140,85 @@ public class HomeFragment extends Fragment {
                 textDay.setText(day);
             }
         });
+       Button next = root.findViewById(R.id.btnNext);
+       next.setOnClickListener(new View.OnClickListener() {
+           public void onClick(View v) {
+               CountDownTimer.cancel();
+               nextGoal();
+           }
+       });
+
+       Button previous = root.findViewById(R.id.btnPrevious);
+       previous.setOnClickListener(new View.OnClickListener() {
+           public void onClick(View v) {
+               CountDownTimer.cancel();
+               previousGoal();
+           }
+        });
 
         return root;
     }
 
+    public void nextGoal(){
+        if (goals.size() > goalPosition + 1){
+            goalPosition += 1;
+        }
+        fillGoals();
+        CountDownTimer.cancel();
+        startTimer(goals.get(goalPosition).getDateTime());
+    }
+    public void previousGoal(){
+        if (goals.size() > (goalPosition - 1))   {
+            goalPosition -= 1;
+            if (goalPosition < startPosition){
+                goalPosition = startPosition;
+            }
+        }
+        fillGoals();
+        CountDownTimer.cancel();
+        startTimer(goals.get(goalPosition).getDateTime());
+    }
+
+    public void fillGoals(){
+        TableLayout table = (TableLayout) root.findViewById(R.id.tableForGoals);
+        table.removeAllViews();
+        for (int counter = 0; counter < goals.size(); counter++) {
+            Goal goal = goals.get(counter);
+           // ll = (TableLayout) root.findViewById(R.id.tableForGoals);
+            Calendar subGoalDeadline = goal.getDateTime();
+            String goalTitle = goal.getTitle();
+            String subGoal = goal.getSubGoal();
+            TableRow tableRow = new TableRow(root.getContext());
+            tableRow.setLayoutParams(new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.MATCH_PARENT,
+                    TableLayout.LayoutParams.MATCH_PARENT,
+                    1.0f));
+            TextView textGoal = new TextView(root.getContext());
+            textGoal.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    1.0f));
+                textGoal.setText(goalTitle + "\n" + subGoal + "\n" + " Deadline: "
+                        + "" + subGoalDeadline.getTime() +
+                        "\n");
+            textGoal.setGravity(Gravity.CENTER);
+            textGoal.setBottom(10);
+            //textGoal.setWidth(520);
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.HOUR, 23);
+            cal.set(Calendar.MINUTE, 59);
+
+        if (counter == goalPosition) {
+            textGoal.setTextColor(Color.BLUE);
+        }
+        if (subGoalDeadline.before(cal) && !isDateSame(subGoalDeadline, cal)){
+            textGoal.setTextColor(Color.RED);
+        }
+            tableRow.addView(textGoal);
+            table.addView(tableRow);
+
+        }
+    }
     //i would make this a public static but each use is slightly different
     private boolean isDateSame(Calendar c1, Calendar c2) {
         return (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) &&
@@ -214,7 +274,7 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (nearestGoalCalendar != null) {
-            startTimer(nearestGoalCalendar);
+            updateCountDown();
         }
     }
 }
