@@ -59,8 +59,8 @@ public class timetableViewFragment extends Fragment {
         timeTable = data.getTimeTable();
         ArrayList<DateForSpinner> temporaryWeeks = new ArrayList<>();
         ArrayList<DateForSpinner> keepWeeks = new ArrayList<>();
-        keepWeeks.add(new DateForSpinner(timeTable.get(0).getDateTime()));
-        temporaryWeeks.add(new DateForSpinner(Calendar.getInstance()));
+        //keepWeeks.add(new DateForSpinner(timeTable.get(0).getDateTime()));
+        temporaryWeeks.add(new DateForSpinner(Calendar.getInstance().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
 
         Calendar start = timeTable.get(0).getDateTime();
         Calendar end = timeTable.get(timeTable.size() - 1).getDateTime();
@@ -78,9 +78,9 @@ public class timetableViewFragment extends Fragment {
 
         for (int counter1 = 0; counter1 < timeTable.size(); counter1++) {
             for (int counter2 = 0; counter2 < mondays.size(); counter2++) {
-                if (isWeekSameLocalDate(mondays.get(counter2), timeTable.get(counter1).getDateTime())){
-                    if (!keepWeeks.contains(new DateForSpinner(timeTable.get(counter1).getDateTime()))){
-                    keepWeeks.add(new DateForSpinner(timeTable.get(counter1).getDateTime()));
+                if (isWeekSameLocalDate(mondays.get(counter2), timeTable.get(counter1).getDateTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())){
+                    if (!keepWeeks.contains(new DateForSpinner(mondays.get(counter1)))){
+                    keepWeeks.add(new DateForSpinner(mondays.get(counter1)));
                  }
                 }
             }
@@ -95,10 +95,10 @@ public class timetableViewFragment extends Fragment {
                 TableLayout tableForTimeTable = (TableLayout) root.findViewById(R.id.tableForTimeTable);
                 tableForTimeTable.removeAllViews();
                 for (int counter1 = 0; counter1 < timeTable.size(); counter1++) {
+                    System.out.println(isWeekSameLocalDate((timeTable.get(counter1).getDateTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()), datad.getDateTime()));
                     if (isWeekSameLocalDate((timeTable.get(counter1).getDateTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()), datad.getDateTime())) {
                         //loop through them all and check if same week
-                        ArrayList<TimeTable> timeTable2 = data.getTimeTable();
-                        TimeTable currentData = timeTable2.get(counter1);
+                        TimeTable currentData = timeTable.get(counter1);
                             TableRow tableRow = new TableRow(root.getContext());
                             tableRow.setLayoutParams(new TableLayout.LayoutParams(
                                     TableLayout.LayoutParams.MATCH_PARENT,
@@ -122,7 +122,6 @@ public class timetableViewFragment extends Fragment {
                             tableRow.addView(textTimeTable);
                             tableForTimeTable.addView(tableRow);
                             //populate the table
-
                     }
                 }
             }
@@ -140,14 +139,12 @@ public class timetableViewFragment extends Fragment {
 
     //Use this to remove all the weeks from the mondays that dont have anything entered by the user, also used to check
     //if 2 dates are in the same week when adding to the scrollview
-    public static boolean isWeekSameLocalDate(LocalDate firstDate, Calendar cal) {
-        LocalDate secondDate = cal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    public static boolean isWeekSameLocalDate(LocalDate firstDate, LocalDate secondDate) {
         WeekFields weeks = WeekFields.of(Locale.getDefault());
         int firstDatesCalendarWeek = firstDate.get(weeks.weekOfWeekBasedYear());
         int secondDatesCalendarWeek = secondDate.get(weeks.weekOfWeekBasedYear());
         int firstWeek = firstDate.get(weeks.weekBasedYear());
         int secondWeek = secondDate.get(weeks.weekBasedYear());
-        return firstDatesCalendarWeek == secondDatesCalendarWeek
-                && firstWeek == secondWeek;
+        return firstDatesCalendarWeek == secondDatesCalendarWeek && firstWeek == secondWeek;
     }
 }
