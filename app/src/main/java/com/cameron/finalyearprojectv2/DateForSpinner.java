@@ -1,5 +1,8 @@
 package com.cameron.finalyearprojectv2;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class DateForSpinner implements Comparable<TimeTable>{
@@ -22,10 +25,8 @@ public class DateForSpinner implements Comparable<TimeTable>{
     //make this return the monday instead of making the calendar monday
     @Override
     public String toString() {
-
-     //return String.valueOf(date.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY));
-
-    //return "Week Beginning " + date.getTime().getDate() +  "/" + (date.getTime().getMonth() + 1) +  "/" + (date.getTime().getYear() + 1900);
-        return date.getTime().getDate() +  "/" + (date.getTime().getMonth() + 1) +  "/" + (date.getTime().getYear() + 1900);
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate ld = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return ld.format(dateFormatter);
     }
 }

@@ -57,10 +57,9 @@ public class timetableViewFragment extends Fragment {
         //get the user data
         data = MainActivity.getData();
         timeTable = data.getTimeTable();
-        ArrayList<DateForSpinner> temporaryWeeks = new ArrayList<>();
         ArrayList<DateForSpinner> keepWeeks = new ArrayList<>();
         keepWeeks.add(new DateForSpinner(timeTable.get(0).getDateTime()));
-        temporaryWeeks.add(new DateForSpinner(Calendar.getInstance()));
+
 
         Calendar start = timeTable.get(0).getDateTime();
         Calendar end = timeTable.get(timeTable.size() - 1).getDateTime();
@@ -75,13 +74,10 @@ public class timetableViewFragment extends Fragment {
             nextOrSameMonday = nextOrSameMonday.plusWeeks ( 1 );
         }
 
-
-        for (int counter1 = 0; counter1 < timeTable.size(); counter1++) {
+        for (int counter1 = 0; counter1 < this.timeTable.size(); counter1++) {
             for (int counter2 = 0; counter2 < mondays.size(); counter2++) {
-                if (isWeekSameLocalDate(mondays.get(counter2), timeTable.get(counter1).getDateTime())){
-                    if (!keepWeeks.contains(new DateForSpinner(timeTable.get(counter1).getDateTime()))){
-                    keepWeeks.add(new DateForSpinner(timeTable.get(counter1).getDateTime()));
-                 }
+                if (isWeekSameLocalDate((LocalDate) mondays.get(counter2), ((TimeTable) this.timeTable.get(counter1)).getDateTime()) && !keepWeeks.contains(new DateForSpinner(((TimeTable) this.timeTable.get(counter1)).getDateTime()))) {
+                    keepWeeks.add(new DateForSpinner(((TimeTable) this.timeTable.get(counter1)).getDateTime()));
                 }
             }
         }
