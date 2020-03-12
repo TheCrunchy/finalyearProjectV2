@@ -66,7 +66,7 @@ public class editTimetableFragment extends Fragment {
         ArrayList<TimeTable> timetable = data.getTimeTable();
         ArrayList<TimeTable> removeThis = new ArrayList<>();
         for (int counter1 = 0; counter1 < timetable.size(); counter1++) {
-            if (timetable.get(counter1).getTitle().equals("Current Time")) {
+            if (timetable.get(counter1).getTitle().equals("No Data to display")) {
                 removeThis.add(timetable.get(counter1));
             }
         }
