@@ -104,9 +104,6 @@ public class HomeFragment extends Fragment {
                 }
             }
 
-            if (goal.isComplete()){
-            }
-            else {
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.HOUR, 23);
                 cal.set(Calendar.MINUTE, 59);
@@ -119,7 +116,7 @@ public class HomeFragment extends Fragment {
                     startPosition = counter;
                     timerStarted = true;
                 }
-            }
+
         }
 
         //populate the table for the goals and highlight the selected goal
