@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment {
     private int goalPosition = 0;
     private int startPosition = 0;
     private ArrayList<Goal> goals;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -75,7 +76,6 @@ public class HomeFragment extends Fragment {
         Calendar cal1 = Calendar.getInstance();
 
 
-
         boolean timerStarted = false;
         for (int counter = 0; counter < goals.size(); counter++) {
             Goal goal = goals.get(counter);
@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
 
             //Add to the int if the day is the same for the label later
             boolean sameDay = isDateSame(cal1, subGoalDeadline);
-            if (sameDay){
+            if (sameDay) {
                 goalsToday++;
             }
 
@@ -104,18 +104,17 @@ public class HomeFragment extends Fragment {
                 }
             }
 
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.HOUR, 23);
-                cal.set(Calendar.MINUTE, 59);
-                if (subGoalDeadline.before(cal) && !isDateSame(subGoalDeadline, cal)){
-                }
-                else if (!timerStarted){
-                    startTimer(subGoalDeadline);
-                    nearestGoalCalendar = subGoalDeadline;
-                    goalPosition = counter;
-                    startPosition = counter;
-                    timerStarted = true;
-                }
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.HOUR, 23);
+            cal.set(Calendar.MINUTE, 59);
+            if (subGoalDeadline.before(cal) && !isDateSame(subGoalDeadline, cal)) {
+            } else if (!timerStarted) {
+                startTimer(subGoalDeadline);
+                nearestGoalCalendar = subGoalDeadline;
+                goalPosition = counter;
+                startPosition = counter;
+                timerStarted = true;
+            }
 
         }
 
@@ -138,37 +137,55 @@ public class HomeFragment extends Fragment {
                 textDay.setText(day);
             }
         });
-       Button next = root.findViewById(R.id.btnNext);
-       next.setOnClickListener(new View.OnClickListener() {
-           public void onClick(View v) {
-               CountDownTimer.cancel();
-               nextGoal();
-           }
-       });
+        //Check if the timer is null before allowing the buttons to work
+        Button next = root.findViewById(R.id.btnNext);
+        if (CountDownTimer != null) {
+            next.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    CountDownTimer.cancel();
+                    nextGoal();
+                }
+            });
+        }
 
-       Button previous = root.findViewById(R.id.btnPrevious);
-       previous.setOnClickListener(new View.OnClickListener() {
-           public void onClick(View v) {
-               CountDownTimer.cancel();
-               previousGoal();
-           }
-        });
-
+        //Check if the timer is null before allowing the buttons to work
+        Button previous = root.findViewById(R.id.btnPrevious);
+        if (CountDownTimer != null) {
+            previous.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    CountDownTimer.cancel();
+                    previousGoal();
+                }
+            });
+        }
         return root;
     }
 
-    public void nextGoal(){
-        if (goals.size() > goalPosition + 1){
+    public void nextGoal() {
+        //Dont think this null check does anything but it doesnt hurt to have
+        if (goals == null) {
+            return;
+        }
+
+        //check if the goal in the next position exists
+        if (goals.size() > goalPosition + 1) {
             goalPosition += 1;
         }
         fillGoals();
         CountDownTimer.cancel();
         startTimer(goals.get(goalPosition).getDateTime());
     }
-    public void previousGoal(){
-        if (goals.size() > (goalPosition - 1))   {
+
+    public void previousGoal() {
+        //Dont think this null check does anything but it doesnt hurt to have
+        if (goals == null) {
+            return;
+        }
+
+        //check if the goal in the previous position exists
+        if (goals.size() > (goalPosition - 1)) {
             goalPosition -= 1;
-            if (goalPosition < startPosition){
+            if (goalPosition < startPosition) {
                 goalPosition = startPosition;
             }
         }
@@ -177,12 +194,13 @@ public class HomeFragment extends Fragment {
         startTimer(goals.get(goalPosition).getDateTime());
     }
 
-    public void fillGoals(){
+    //populate the goals scrollview
+    public void fillGoals() {
         TableLayout table = (TableLayout) root.findViewById(R.id.tableForGoals);
         table.removeAllViews();
         for (int counter = 0; counter < goals.size(); counter++) {
             Goal goal = goals.get(counter);
-           // ll = (TableLayout) root.findViewById(R.id.tableForGoals);
+            // ll = (TableLayout) root.findViewById(R.id.tableForGoals);
             Calendar subGoalDeadline = goal.getDateTime();
             String goalTitle = goal.getTitle();
             String subGoal = goal.getSubGoal();
@@ -196,9 +214,9 @@ public class HomeFragment extends Fragment {
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.MATCH_PARENT,
                     1.0f));
-                textGoal.setText(goalTitle + "\n" + subGoal + "\n" + " Deadline: "
-                        + "" + subGoalDeadline.getTime() +
-                        "\n");
+            textGoal.setText(goalTitle + "\n" + subGoal + "\n" + " Deadline: "
+                    + "" + subGoalDeadline.getTime() +
+                    "\n");
             textGoal.setGravity(Gravity.CENTER);
             textGoal.setBottom(10);
             //textGoal.setWidth(520);
@@ -206,21 +224,29 @@ public class HomeFragment extends Fragment {
             cal.set(Calendar.HOUR, 23);
             cal.set(Calendar.MINUTE, 59);
 
-        if (counter == goalPosition) {
-            textGoal.setTypeface(null, Typeface.BOLD_ITALIC);
-        }
-        if (goal.isComplete()){
-            textGoal.setTextColor(Color.GREEN);
-        }
-        if (subGoalDeadline.before(cal) && !isDateSame(subGoalDeadline, cal)){
-            textGoal.setTextColor(Color.RED);
 
-        }
+            //if the goal is complete make its colour green and bold
+            if (goal.isComplete()) {
+                textGoal.setTextColor(Color.GREEN);
+                textGoal.setTypeface(null, Typeface.BOLD);
+            }
+            //make the currently selected goal italic and bold
+            if (counter == goalPosition) {
+                textGoal.setTypeface(null, Typeface.BOLD_ITALIC);
+            } else {
+                //if the deadline is passed make the colour red
+                if (subGoalDeadline.before(cal) && !isDateSame(subGoalDeadline, cal)) {
+                    textGoal.setTextColor(Color.RED);
+
+                }
+            }
+            //Add the new textview to the table in the scrollview
             tableRow.addView(textGoal);
             table.addView(tableRow);
 
         }
     }
+
     //i would make this a public static but each use is slightly different
     private boolean isDateSame(Calendar c1, Calendar c2) {
         return (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) &&
@@ -229,11 +255,11 @@ public class HomeFragment extends Fragment {
     }
 
 
-    //start the timer for the thing, pass it a calendar to use then calculate the time between the calendar and local time, then start the timer
+    //start the timer for the time until deadline timer, pass it a calendar to use then calculate the time between the calendar and local time, then start the timer
     private void startTimer(Calendar cal) {
         nearestGoalCalendar = cal;
         Calendar localTime = Calendar.getInstance();
-        startTimeMillis = (cal.getTimeInMillis() - localTime.getTimeInMillis() );
+        startTimeMillis = (cal.getTimeInMillis() - localTime.getTimeInMillis());
 
         //pass the startTimeMillis for when the timer should start and an interval for how often to update
         CountDownTimer = new CountDownTimer(startTimeMillis, 1000) {
@@ -243,6 +269,7 @@ public class HomeFragment extends Fragment {
                 timeLeftInMillis = millisUntilFinished;
                 updateCountDown();
             }
+
             @Override
             public void onFinish() {
                 timerRunning = false;
@@ -253,6 +280,8 @@ public class HomeFragment extends Fragment {
         timerRunning = true;
     }
 
+
+    //Set the timer label to a formatted string
     private void updateCountDown() {
 
         long days = TimeUnit.MILLISECONDS.toDays(timeLeftInMillis);
@@ -264,8 +293,8 @@ public class HomeFragment extends Fragment {
         long minutes = TimeUnit.MILLISECONDS.toMinutes(timeLeftInMillis);
         timeLeftInMillis -= TimeUnit.MINUTES.toMillis(minutes);
 
-       long seconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftInMillis);
-        String timeLeftFormatted = String.format(days + "d " + hours + "h " + minutes + "m " + seconds + "s" );
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftInMillis);
+        String timeLeftFormatted = String.format(days + "d " + hours + "h " + minutes + "m " + seconds + "s");
 
         textViewClosestDeadlineLabel = root.findViewById(R.id.textViewClosestDeadlineLabel);
         textViewClosestDeadlineLabel.setText(timeLeftFormatted);
@@ -277,6 +306,7 @@ public class HomeFragment extends Fragment {
         super.onResume();
         if (nearestGoalCalendar != null) {
             updateCountDown();
+            //Dont think this is needed anymore, it updates the time on the timer when the user re-enters the page
         }
     }
 }

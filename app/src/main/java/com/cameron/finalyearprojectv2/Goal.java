@@ -14,6 +14,7 @@ public class Goal  implements Comparable<Goal>{
         this.status = isComplete;
     }
 
+    //Set the status to complete
     public void setCompletionStatus(Boolean status){
         this.status = status;
     }

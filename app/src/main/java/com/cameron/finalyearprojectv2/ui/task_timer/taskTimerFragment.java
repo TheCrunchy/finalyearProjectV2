@@ -18,6 +18,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.cameron.finalyearprojectv2.R;
 
+import java.util.concurrent.TimeUnit;
+
 public class taskTimerFragment extends Fragment {
 
     private TaskTimerViewModel taskTimerViewModel;
@@ -76,9 +78,12 @@ public class taskTimerFragment extends Fragment {
 
         return root;
     }
+
+    //start the timer
     private void startTimer() {
         String input = timeInput.getText().toString();
         long millisInput;
+        //check if the timer hasnt started yet or if the number is bad
         if (timeLeftMillis < 1) {
             if (input.length() == 0) {
                 Toast.makeText(this.getContext(), "You must enter a number into the input", Toast.LENGTH_SHORT).show();
@@ -92,6 +97,7 @@ public class taskTimerFragment extends Fragment {
             }
             timeInput.setText("");
         }
+        //if it has started and paused, use the paused time and start again
         else {
             millisInput = timeLeftMillis;
         }
@@ -112,10 +118,11 @@ public class taskTimerFragment extends Fragment {
         }.start();
 
         timerRunning = true;
-        buttonStartPause.setText("pause");
+        buttonStartPause.setText("Pause");
         buttonReset.setVisibility(View.INVISIBLE);
     }
 
+    //pause the timer
     private void pauseTimer() {
         countDownTimer.cancel();
         timerRunning = false;
@@ -123,6 +130,7 @@ public class taskTimerFragment extends Fragment {
         buttonReset.setVisibility(View.VISIBLE);
     }
 
+    //reset the timer to default value
     private void resetTimer() {
         timeLeftMillis = startTimeMillis;
         updateCountDownText();
@@ -130,22 +138,16 @@ public class taskTimerFragment extends Fragment {
         buttonStartPause.setVisibility(View.VISIBLE);
     }
 
+    //update the text for the timer, cant remember why this is slightly different to the home screen countdown timer, but it works so no need to break it
     private void updateCountDownText() {
-        int hours = (int) (timeLeftMillis / 1000) / 3600;
-        int minutes = (int) ((timeLeftMillis / 1000) % 3600) / 60;
-        int seconds = (int) (timeLeftMillis / 1000) % 60;
-
-
-
+        long hours = TimeUnit.MILLISECONDS.toHours(timeLeftMillis) % 60;
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(timeLeftMillis) % 60;
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftMillis) % 60;
         String timeLeft;
         if (hours > 0) {
            timeLeft= String.format( hours + "h " + minutes + "m " + seconds + "s" );
-           // timeLeft = String.format(Locale.getDefault(),
-            //        "%d:%02d:%02d", hours, minutes, seconds);
         } else {
            timeLeft= String.format(minutes + "m " + seconds + "s" );
-          //  timeLeft = String.format(Locale.getDefault(),
-          //          "%02d:%02d", minutes, seconds);
         }
 
         textViewCountDown.setText(timeLeft);

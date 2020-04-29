@@ -31,7 +31,7 @@ public class GoalsFragment extends Fragment {
 
     //these are for the spinner to select a goal
     private Spinner spinner;
-    private EditText userInputGoal1, userInputGoal2, userInputGoal3;
+    private EditText userInputGoal1;
     private EditText userInputGoalTitle;
     private DatePicker datePicker;
     private TimePicker timePicker;
@@ -42,6 +42,8 @@ public class GoalsFragment extends Fragment {
     private UserData data = MainActivity.getData();
     //the user data
 
+
+    //setup the fragment when the user loads it
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         goalsViewModel =
@@ -53,7 +55,7 @@ public class GoalsFragment extends Fragment {
                // textView.setText(s);
             }
         });
-       // final View view = inflater.inflate(R.layout.fragment_goals, container, false);
+
         //get the edit texts to fill later
         userInputGoalTitle = (EditText) root.findViewById(R.id.text_title);
         userInputGoal1 = (EditText) root.findViewById(R.id.text_details);
@@ -61,6 +63,8 @@ public class GoalsFragment extends Fragment {
         timePicker=(TimePicker) root.findViewById(R.id.timePicker1);
         goalComplete=(CheckBox) root.findViewById(R.id.checkBoxComplete);
 
+
+        //Fill the spinner with the users current goals so they can select them, when selecting it fills the input fields with existing data
         ArrayList<Goal> goals = data.getGoals();
         ArrayAdapter<Goal> adapter = new ArrayAdapter<Goal>(this.getContext(),
                 android.R.layout.simple_spinner_item, goals);
@@ -70,10 +74,11 @@ public class GoalsFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Goal g1 = (Goal) parent.getSelectedItem();
+                //fill the fields with existing data
                 userInputGoalTitle.setText(((Goal) parent.getSelectedItem()).getTitle());
                 userInputGoal1.setText(((Goal) parent.getSelectedItem()).getSubGoal());
                 datePicker.updateDate(g1.getDateTime().getTime().getYear() + 1900, g1.getDateTime().getTime().getMonth(), g1.getDateTime().getTime().getDate());
-                //datePicker.
+
                 timePicker.setIs24HourView(true);
                 timePicker.setHour(g1.getDateTime().getTime().getHours());
                 timePicker.setMinute(g1.getDateTime().getTime().getMinutes());
@@ -82,10 +87,11 @@ public class GoalsFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                //i should probably do something here
             }
         });
         spinner.setAdapter(adapter);
         return root;
     }
+
 }

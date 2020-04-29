@@ -22,7 +22,7 @@ public class DateForSpinner implements Comparable<TimeTable>{
     }
 
 
-    //make this return the monday instead of making the calendar monday
+
     @Override
     public String toString() {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
