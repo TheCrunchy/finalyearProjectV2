@@ -72,6 +72,8 @@ public class timetableViewFragment extends Fragment {
         List<LocalDate> mondays = new ArrayList<> ();
         LocalDate nextOrSameMonday = startD.with ( TemporalAdjusters.nextOrSame ( DayOfWeek.MONDAY ) );
 
+
+        //in the future rewrite the timetable data to always save the first day of that week so i dont need to do this stuff
         while ( ( null != nextOrSameMonday ) & (  ! nextOrSameMonday.isAfter ( stopD ) ) ) {
             mondays.add ( nextOrSameMonday );  //
             nextOrSameMonday = nextOrSameMonday.plusWeeks ( 1 );
