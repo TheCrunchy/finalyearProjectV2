@@ -64,12 +64,15 @@ public class timetableViewFragment extends Fragment {
         keepWeeks.add(new DateForSpinner(timeTable.get(0).getDateTime()));
 
 
+        //get the first date in the data and the last date in the data
         Calendar start = timeTable.get(0).getDateTime();
         Calendar end = timeTable.get(timeTable.size() - 1).getDateTime();
 
+        //convert them to useful objects
         LocalDate startD = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate stopD = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         List<LocalDate> mondays = new ArrayList<> ();
+        //Useful localdate stuff to get dates inbetween the 2 used above
         LocalDate nextOrSameMonday = startD.with ( TemporalAdjusters.nextOrSame ( DayOfWeek.MONDAY ) );
 
 
@@ -79,6 +82,7 @@ public class timetableViewFragment extends Fragment {
             nextOrSameMonday = nextOrSameMonday.plusWeeks ( 1 );
         }
 
+        //remove dates that arent in the same weeks as events in the data
         for (int counter1 = 0; counter1 < timeTable.size(); counter1++) {
             for (int counter2 = 0; counter2 < mondays.size(); counter2++) {
                 if (isWeekSameLocalDate(mondays.get(counter2), ( timeTable.get(counter1)).getDateTime()) && !keepWeeks.contains(new DateForSpinner((timeTable.get(counter1)).getDateTime()))) {
@@ -86,10 +90,12 @@ public class timetableViewFragment extends Fragment {
                 }
             }
         }
+        //populate the spinner dropdown with the users weeks with data
         ArrayAdapter<DateForSpinner> adapter = new ArrayAdapter<DateForSpinner>(this.getContext(), android.R.layout.simple_spinner_item, keepWeeks);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner = root.findViewById(R.id.spinnerForSelectingWeek);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //populate the scrollview when the user picks from the dropdown spinner, default will always be the first week though i could change that to be the current week.
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 DateForSpinner datad = (DateForSpinner) parent.getSelectedItem();
