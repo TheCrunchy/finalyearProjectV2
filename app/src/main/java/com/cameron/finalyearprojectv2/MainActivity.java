@@ -240,6 +240,9 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
+
+    //using googles Gson ("google/gson", 2008)
+    //https://github.com/google/gson/blob/master/LICENSE
     //Save the user data object to a json file on the local device
     public void saveFile() {
         //data
@@ -265,6 +268,8 @@ public class MainActivity extends AppCompatActivity{
     }
 
     //load the user data file and make it into an object
+    //using googles Gson ("google/gson", 2008)
+    //https://github.com/google/gson/blob/master/LICENSE
     public void loadFile() {
         FileInputStream fis = null;
         try {
